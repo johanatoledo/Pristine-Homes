@@ -1,0 +1,22 @@
+{
+  "name": "frontend-pristine-homes",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "start": "vite preview"
+  },
+  "keywords": [
+    "frontend",
+    "html",
+    "javascript",
+    "esmodules"
+  ],
+  "author": "Johana Toledo",
+  "license": "ISC",
+  "description": "",
+   "devDependencies": {
+    "vite": "^7.0.0"
+  }
+}
