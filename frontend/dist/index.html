@@ -8,6 +8,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
     :root {
+  --brand:#cccccc; 
   --pristine-magenta: #e747ad;
   --pristine-black: #000000;
   --pristine-white: #ffffff;
@@ -21,7 +22,27 @@
     .btn-custom:hover { transform: scale(1.05); transition: all 0.3s ease;}
     .accordion-button:not(.collapsed) { color: var(--pristine-white); background-color: var(--pristine-magenta);}
     .accordion-button:not(.collapsed)::after {filter: brightness(0) invert(1);}
-    
+    .btn-brand{background:var(--brand); color:var(--pristine-black); border:none;}
+    .btn-brand:hover{background:var(--pristine-magenta); color:var(--pristine-white);}
+    .btn-outline-brand{border-color:var(--pristine-magenta); color:var(--pristine-black);} 
+    .btn-outline-brand:hover{background:var(--pristine-magenta); color:var(--pristine-white);}
+    .brand-pill{background:rgba(46,191,165,.12); color:var(--pristine-black);}
+    .shadow-soft{box-shadow: 0 10px 30px rgba(2,10,20,.08);} 
+    .bg-white-opaco {background-color: rgba(255, 255, 255, 0.8);}
+    .rounded-2xl{border-radius: 1rem;} 
+    .icon-circle{width:48px;height:48px;border-radius:9999px;display:inline-flex;align-items:center;justify-content:center;background:rgba(47,128,237,.12);color:var(--brand-2)}
+    .nav-link.active{color:var(--pristine-magenta)!important; font-weight:600;}
+    .step.active .step-index{background:var(--pristine-magenta); color:var(--pristine-white);}
+    .step .step-index{width:36px;height:36px;border-radius:9999px;display:inline-flex;align-items:center;justify-content:center;background:#eef2f7;color:#445;}
+    .cursor-pointer{cursor:pointer}
+    [data-view]{display:none}
+    [data-view].active{display:block}
+    .service-card{transition: transform .2s ease, box-shadow .2s ease;}
+    .service-card:hover{transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,.08)}
+    .testimonial-photo{width:48px;height:48px;border-radius:9999px;object-fit:cover}
+    .table-clean th{font-weight:600;color:#475569}
+    .footer a{color:inherit;text-decoration:none}
+    .footer a:hover{color:var(--brand)}
   </style>
 </head>
 <body>
@@ -51,8 +72,8 @@
             <span class="badge rounded-pill brand-pill mb-3">Professional Cleaning · Fast · Guaranteed</span>
             <h1 class="display-5 fw-bold lh-tight mb-3">Your spotless home in hours, not days</h1>
             <div class="d-flex gap-2 mt-3">
-              <a href="#booking" class="btn btn-custom btn-brand btn-lg" style="background-color: var(--pristine-magenta) !important; color: var(--pristine-white) !important;" data-link>Reservar ahora</a>
-              <a href="#booking" class="btn btn-custom btn-outline-brand btn-lg" style="background-color: var(--pristine-magenta) !important; color: var(--pristine-white) !important;" data-link>Obtener presupuesto gratis</a>
+              <a href="#booking" class="btn btn-custom btn-brand btn-lg" style="background-color: var(--pristine-magenta) !important; color: var(--pristine-white) !important;" data-link>Book now</a>
+              <a href="#booking" class="btn btn-custom btn-outline-brand btn-lg" style="background-color: var(--pristine-magenta) !important; color: var(--pristine-white) !important;" data-link>Get a free quote</a>
             </div>
             <div class="d-flex gap-4 mt-4 small text-muted">
               <div class="d-flex align-items-center gap-2"><span class="icon-circle" style="background:rgba(46,191,165,.12);color:var(--brand)"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Verified staff</div>
@@ -61,44 +82,44 @@
             </div>
           </div>
           <div class="col-12 col-lg-6">
-            <div class="p-3 p-lg-4 bg-white rounded-2xl shadow-soft">
+            <div class="p-3 p-lg-4 bg-white-opaco rounded-2xl shadow-soft">
               <h2 class="h5 mb-3">Get a quick quote</h2>
               <form id="quickQuoteForm" class="row g-2">
                 <div class="col-12 col-md-6">
                   <label class="form-label">Type of service</label>
                   <select class="form-select" name="service" required>
-                    <option value="">Selecciona…</option>
-                    <option value="regular">Limpieza de casa</option>
-                    <option value="deep">Limpieza profunda</option>
-                    <option value="preparation">Limpieza de preparación</option>
-                    <option value="moving-out">Limpieza de mudanza</option>
-                    <option value="apartament">Limpieza de apartamentos</option>
-                    <option value="office">Limpieza de oficina</option>
+                    <option value="">Select…</option>
+                    <option value="regular">House cleaning</option>
+                    <option value="deep">Deep cleaning</option>
+                    <option value="preparation">Preparation cleaning</option>
+                    <option value="moving-out">Moving cleaning</option>
+                    <option value="apartament">Apartment cleaning</option>
+                    <option value="office">Office cleaning</option>
                   </select>
                 </div>
                 <div class="col-6 col-md-3">
-                  <label class="form-label">Habitaciones</label>
+                  <label class="form-label">Rooms</label>
                   <input type="number" min="0" max="10" class="form-control" name="beds" value="2" required />
                 </div>
                 <div class="col-6 col-md-3">
-                  <label class="form-label">Baños</label>
+                  <label class="form-label">Bathrooms</label>
                   <input type="number" min="1" max="10" class="form-control" name="baths" value="1" required />
                 </div>
                 <div class="col-12 col-md-6">
-                  <label class="form-label">Frecuencia</label>
+                  <label class="form-label">Frequency</label>
                   <select class="form-select" name="freq" required>
-                    <option value="Once">Una vez</option>
-                    <option value="Weekly">Semanal</option>
-                    <option value="Biweekly">Quincenal</option>
-                    <option value="Monthly">Mensual</option>
+                    <option value="Once">Once</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="Biweekly">Biweekly</option>
+                    <option value="Monthly">Monthly</option>
                   </select>
                 </div>
                 <div class="col-12 col-md-6">
-                  <label class="form-label">Código postal</label>
+                  <label class="form-label">Zip code</label>
                   <input type="text" class="form-control" name="zip" placeholder="00000" pattern="[0-9]{4,6}" required />
                 </div>
                 <div class="col-12 d-grid d-md-flex gap-2 mt-2">
-                  <button class="btn btn-brand" type="submit">Ver tarifas</button>
+                  <button class="btn btn-brand" type="submit">See rates</button>
                   <a class="btn btn-outline-brand" href="#booking" data-link>Book now</a>
                 </div>
                 <small class="text-muted">Instant estimate · No obligation</small>
@@ -134,7 +155,7 @@
   <!-- 3 pasos -->
     <section class="py-5">
       <div class="container">
-        <div class="row text-center mb-4"><h2 class="fw-bold">that easy</h2><p class="text-muted">Reserva en 3 pasos y disfruta de un espacio radiante</p></div>
+        <div class="row text-center mb-4"><h2 class="fw-bold" style="color:var(--pristine-black);">  That easy</h2><p class="text-muted">Reserva en 3 pasos y disfruta de un espacio radiante</p></div>
         <div class="row g-3 g-lg-4">
           <div class="col-12 col-md-4">
             <div class="step p-4 bg-white rounded-2xl shadow-soft h-100 text-center">
@@ -166,14 +187,14 @@
 
   <section id="services" class="py-5">
     <div class="container">
-      <h2 class="text-center mb-4" style="color: var(--pristine-magenta) !important;">Servicios de limpieza</h2>
+      <h2 class="text-center mb-4" style="color: var(--pristine-magenta) !important;">Cleaning services</h2>
       <div class="row g-4">
         <div class="col-md-4">
           <div class="card h-100 shadow-lg ">
             <img src="assets/casas.png" class="card-img-top" alt="Limpieza regular">
             <div class="card-body">
-              <h5 class="card-title">Limpieza de casa</h5>
-              <p class="card-text">Mantenimiento periódico para tu hogar.</p>
+              <h5 class="card-title">House cleaning</h5>
+              <p class="card-text">Periodic maintenance for your home.</p>
               <a href="#booking" class="btn btn-custom btn-outline-primary  " style="background-color: var(--pristine-magenta) !important;color:var(--pristine-white) !important;border-color: var(--pristine-magenta) !important;">Reserve</a>
             </div>
           </div>
@@ -182,8 +203,8 @@
           <div class="card h-100 shadow-lg">
             <img src="/assets/limpiezaprofunda.png" class="card-img-top" alt="Limpieza profunda">
             <div class="card-body">
-              <h5 class="card-title">Limpieza profunda</h5>
-              <p class="card-text">Detalle completo para todas las áreas.</p>
+              <h5 class="card-title">Deep cleaning</h5>
+              <p class="card-text">Complete detail for all areas.</p>
               <a href="#booking" class="btn btn-custom btn-outline-primary" style="background-color: var(--pristine-magenta) !important;color:var(--pristine-white) !important;border-color: var(--pristine-magenta) !important;">Reserve</a>
             </div>
           </div>
@@ -192,8 +213,8 @@
           <div class="card h-100 shadow-lg">
             <img src="assets/limpiezaPreparacion.png" class="card-img-top" alt="Limpieza de preparación">
             <div class="card-body">
-              <h5 class="card-title">Limpieza de preparación</h5>
-              <p class="card-text">Ideal antes de eventos o entregas.</p>
+              <h5 class="card-title">Preparation cleaning</h5>
+              <p class="card-text">Ideal before events or deliveries.</p>
               <a href="#booking" class="btn btn-custom btn-outline-primary" style="background-color: var(--pristine-magenta) !important; color:var(--pristine-white) !important;border-color: var(--pristine-magenta) !important;">Reserve</a>
             </div>
           </div>
@@ -202,8 +223,8 @@
           <div class="card h-100 shadow-lg">
             <img src="/assets/oficina.png" class="card-img-top" alt="Limpieza de oficinas">
             <div class="card-body">
-              <h5 class="card-title">Limpieza de Oficinas</h5>
-              <p class="card-text">Ideal para el dia a dia de tu empresa.</p>
+              <h5 class="card-title">Office Cleaning</h5>
+              <p class="card-text">Ideal for the day to day of your business</p>
               <a href="#booking" class="btn btn-custom btn-outline-primary" style="background-color: var(--pristine-magenta) !important;color:var(--pristine-white) !important;border-color: var(--pristine-magenta) !important;">Reserve</a>
             </div>
           </div>
@@ -212,8 +233,8 @@
           <div class="card h-100 shadow-lg">
             <img src="assets/apartamento.png" class="card-img-top"  alt="Limpieza de Apartamentos">
             <div class="card-body">
-              <h5 class="card-title">Limpieza de Apartamentos</h5>
-              <p class="card-text">Mantenimiento periodico para tu hogar.</p>
+              <h5 class="card-title">Apartment Cleaning</h5>
+              <p class="card-text">Periodic maintenance for your home.</p>
               <a href="#booking" class="btn btn-custom btn-outline-primary" style="background-color: var(--pristine-magenta) !important;color:var(--pristine-white) !important;border-color: var(--pristine-magenta) !important;" >Reserve</a>
             </div>
           </div>
@@ -310,33 +331,33 @@
         <div class="col-md-6">
           <label class="form-label">Type of service</label>
           <select class="form-select" required>
-            <option value="">Selecciona…</option>
-            <option value="regular">Limpieza de casa</option>
-            <option value="profunda">Limpieza profunda</option>
+            <option value="">Select…</option>
+            <option value="regular">House cleaning</option>
+            <option value="profunda">Deep cleaning</option>
           </select>
         </div>
         <div class="col-md-3">
-          <label class="form-label">Habitaciones</label>
+          <label class="form-label">Rooms</label>
           <input type="number" class="form-control" value="2" min="0" max="10">
         </div>
         <div class="col-md-3">
-          <label class="form-label">Baños</label>
+          <label class="form-label">Bathrooms</label>
           <input type="number" class="form-control" value="1" min="1" max="10">
         </div>
         <div class="col-md-6">
-          <label class="form-label">Fecha</label>
+          <label class="form-label">Date</label>
           <input type="date" class="form-control">
         </div>
         <div class="col-md-6">
-          <label class="form-label">Hora</label>
+          <label class="form-label">Hour</label>
           <input type="time" class="form-control">
         </div>
         <div class="col-12">
-          <label class="form-label">Dirección</label>
+          <label class="form-label">Address</label>
           <input type="text" class="form-control" placeholder="Calle 123, Ciudad">
         </div>
         <div class="col-12 text-center">
-          <button class="btn btn-custom btn-primary btn-lg" type="submit" style="background-color: var(--pristine-magenta) !important;border-color: var(--pristine-magenta) !important;">Confirmar reserva</button>
+          <button class="btn btn-custom btn-primary btn-lg" type="submit" style="background-color: var(--pristine-magenta) !important;border-color: var(--pristine-magenta) !important;">Confirm reservation</button>
         </div>
       </form>
     </div>
@@ -378,13 +399,13 @@
         <div class="col-12 col-lg-10">
           <div class="bg-white rounded-2xl shadow-soft p-3 p-lg-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
-              <h2 class="h4 mb-0">Mis reservas</h2>
+              <h2 class="h4 mb-0">My reservations</h2>
               <button class="btn btn-outline-brand btn-sm" id="btnClearBookings">Limpiar historial</button>
             </div>
             <div class="table-responsive">
               <table class="table table-clean">
-                <thead><tr><th>Fecha</th><th>Hora</th><th>Servicio</th><th>Habitaciones/Baños</th><th>Extras</th><th>Tarifa</th><th>Estado</th></tr></thead>
-                <tbody id="bookingTableBody"><tr><td colspan="7" class="text-muted">Sin reservas aún</td></tr></tbody>
+                <thead><tr><th>Date</th><th>Hour</th><th>Service</th><th>Bedrooms/Bathrooms</th><th>Extras</th><th>Fee</th><th>State</th></tr></thead>
+                <tbody id="bookingTableBody"><tr><td colspan="7" class="text-muted">No reservations yet</td></tr></tbody>
               </table>
             </div>
           </div>
