@@ -5,7 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Pristine Homes – Cleaning Services </title>
    <link rel="icon" type="image/x-icon" href="/assets/logopristine.png"> 
+    <!-- Stripe.js v3 para Apple Pay / Payment Request -->
+  <script src="https://js.stripe.com/v3/"></script>
+   <!-- Bootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
   --brand:#cccccc; 
@@ -50,12 +56,14 @@
     <div class="container">
        <img  src="/assets/logoPristineTransp.png" class="logo" alt="Logo pristine homes">
       <a class="navbar-brand fw-bold" href="#home" style="color: var(--pristine-magenta);">Pristine Homes</a>
-      <div class="collapse navbar-collapse">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item "><a class="nav-link list-hover" href="#home">Home</a></li>
-          <li class="nav-item "><a class="nav-link list-hover" href="#services">Services</a></li>
-          <li class="nav-item "><a class="nav-link list-hover" href="#booking">Reserve</a></li>
-          <li class="nav-item "><a class="nav-link list-hover" href="#panel">My Dashboard</a></li>
+     <div id="navMain" class="collapse navbar-collapse">
+       <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+         <li class="nav-item"><a class="nav-link list-hover" href="#home" data-link>Home</a></li>
+          <li class="nav-item"><a class="nav-link list-hover" href="#faq" data-link>FAQ</a></li>
+          <li class="nav-item"><a class="nav-link list-hover" href="#about" data-link>About </a></li>
+          <li class="nav-item"><a class="nav-link list-hover" href="#blog" data-link>Blog</a></li>
+          <li class="nav-item"><a class="nav-link list-hover" href="#panel" data-link>My Dashboard</a></li>
+          <li class="nav-item ms-lg-2"><a class="btn btn-brand btn-custom" href="#booking" data-link>Book now</a></li>
         </ul>
       </div>
     </div>
@@ -132,26 +140,6 @@
     </section>
 
 
-    <!-- ABOUT -->
-  <section data-view id="about" class="py-5">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-12 col-lg-9">
-          <div class="bg-white rounded-2xl shadow-soft p-4 p-lg-5">
-            <h2 class="fw-bold mb-3">About Pristine Homes</h2>
-            <p class="lead">We were born with a clear mission: to make cleaning simple, reliable, and sustainable.</p>
-            <p class="text-muted">Our team is comprised of vetted professionals with ongoing training and a focus on your satisfaction. We use environmentally friendly materials and standardized processes to ensure consistent results.</p>
-            <div class="row g-3 mt-2">
-              <div class="col-6 col-md-4"><div class="p-3 bg-white border rounded-2xl text-center"><div class="fw-bold">+5,000</div><div class="small text-muted">Reservations completed</div></div></div>
-              <div class="col-6 col-md-4"><div class="p-3 bg-white border rounded-2xl text-center"><div class="fw-bold">4.9/5</div><div class="small text-muted">Average rating</div></div></div>
-              <div class="col-6 col-md-4"><div class="p-3 bg-white border rounded-2xl text-center"><div class="fw-bold">48h</div><div class="small text-muted">Rework guarantee</div></div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- 3 pasos -->
     <section class="py-5">
       <div class="container">
@@ -185,7 +173,7 @@
 
   <!-- SERVICES -->
 
-  <section id="services" class="py-5">
+  <section  id="services" class="py-5">
     <div class="container">
       <h2 class="text-center mb-4" style="color: var(--pristine-magenta) !important;">Cleaning services</h2>
       <div class="row g-4">
@@ -205,6 +193,16 @@
             <div class="card-body">
               <h5 class="card-title">Deep cleaning</h5>
               <p class="card-text">Complete detail for all areas.</p>
+              <a href="#booking" class="btn btn-custom btn-outline-primary" style="background-color: var(--pristine-magenta) !important;color:var(--pristine-white) !important;border-color: var(--pristine-magenta) !important;">Reserve</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100 shadow-lg">
+            <img src="/assets/movcleaning.png" class="card-img-top" alt="Limpieza profunda">
+            <div class="card-body">
+              <h5 class="card-title">Move-In Cleaning</h5>
+              <p class="card-text">Move-In/Move-Out cleaning.</p>
               <a href="#booking" class="btn btn-custom btn-outline-primary" style="background-color: var(--pristine-magenta) !important;color:var(--pristine-white) !important;border-color: var(--pristine-magenta) !important;">Reserve</a>
             </div>
           </div>
@@ -323,47 +321,228 @@
       </div>
     </section>
 
-    <!-- Reservar -->
-    <section id="booking" class="py-5 bg-light">
+    
+
+  </main>
+   <!-- BOOKING (SPA view) -->
+  <section data-view id="booking" class="py-5">
     <div class="container">
-      <h2 class="text-center mb-4" style="color: var(--pristine-magenta) !important;">Book your cleaning</h2>
-      <form class="row g-3">
-        <div class="col-md-6">
-          <label class="form-label">Type of service</label>
-          <select class="form-select" required>
-            <option value="">Select…</option>
-            <option value="regular">House cleaning</option>
-            <option value="profunda">Deep cleaning</option>
-          </select>
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+          <div class="bg-white rounded-2xl shadow-soft p-3 p-lg-4">
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-3">
+              <h2 class="h4 mb-2 mb-md-0">Book your cleaning</h2>
+              <div class="small text-muted">4-step process</div>
+            </div>
+
+            <!-- Progress -->
+            <div class="d-flex gap-2 mb-4">
+              <div class="step d-flex align-items-center gap-2" data-step="1">
+                <div class="step-index">1</div><div class="small">Service</div>
+              </div>
+              <div class="step d-flex align-items-center gap-2" data-step="2">
+                <div class="step-index">2</div><div class="small">Details</div>
+              </div>
+              <div class="step d-flex align-items-center gap-2" data-step="3">
+                <div class="step-index">3</div><div class="small">Date and time</div>
+              </div>
+              <div class="step d-flex align-items-center gap-2" data-step="4">
+                <div class="step-index">4</div><div class="small">Contact and payment</div>
+              </div>
+            </div>
+
+            <form id="bookingForm">
+              <!-- Paso 1: seleccionar servicio -->
+              <div class="booking-step" data-booking-step="1">
+                <div class="row g-3">
+                  <div class="col-6 col-md-4">
+                    <div class="card h-100 border-0 shadow-soft cursor-pointer" data-service="regular">
+                      <div class="card-body text-center">
+                        <div class="icon-circle mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-3-3.87"/><path d="M4 21v-2a4 4 0 0 1 3-3.87"/><circle cx="12" cy="7" r="4"/></svg></div>
+                        <div class="fw-bold">House Cleaning</div>
+                        <div class="small text-muted">Regular Maintenance</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6 col-md-4">
+                    <div class="card h-100 border-0 shadow-soft cursor-pointer" data-service="profunda">
+                      <div class="card-body text-center">
+                        <div class="icon-circle mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-8 8-3 9 9-3 8-8-6-6z"/><path d="M22 2l-6 6"/></svg></div>
+                        <div class="fw-bold">Deep Cleaning</div>
+                        <div class="small text-muted">Deep Detail</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6 col-md-4">
+                    <div class="card h-100 border-0 shadow-soft cursor-pointer" data-service="preparacion">
+                      <div class="card-body text-center">
+                        <div class="icon-circle mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg></div>
+                        <div class="fw-bold">Preparation Cleaning</div>
+                        <div class="small text-muted">Before event/delivery</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6 col-md-4">
+                    <div class="card h-100 border-0 shadow-soft cursor-pointer" data-service="mudanza">
+                      <div class="card-body text-center">
+                        <div class="icon-circle mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v4H3z"/><path d="M16 7v13a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2V7"/></svg></div>
+                        <div class="fw-bold">Move-In Cleaning</div>
+                        <div class="small text-muted">Move-In/Move-Out</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6 col-md-4">
+                    <div class="card h-100 border-0 shadow-soft cursor-pointer" data-service="apartamento">
+                      <div class="card-body text-center">
+                        <div class="icon-circle mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7h14v14"/><path d="M9 21V10"/><path d="M15 21V14"/></svg></div>
+                        <div class="fw-bold">Apartament cleaning</div>
+                        <div class="small text-muted">Efficient and agile</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="col-6 col-md-4">
+                    <div class="card h-100 border-0 shadow-soft cursor-pointer" data-service="oficina">
+                      <div class="card-body text-center">
+                        <div class="icon-circle mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 3h-1a2 2 0 0 0-2 2v2H7V5a2 2 0 0 0-2-2H4"/></svg></div>
+                        <div class="fw-bold">Office</div>
+                        <div class="small text-muted">Productive environment</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Paso 2: detalles -->
+              <div class="booking-step d-none" data-booking-step="2">
+                <div class="row g-3">
+                  <div class="col-6 col-md-3">
+                    <label class="form-label">Rooms</label>
+                    <input type="number" min="0" max="10" class="form-control" name="bBeds" value="2" required />
+                  </div>
+                  <div class="col-6 col-md-3">
+                    <label class="form-label">Bathrooms</label>
+                    <input type="number" min="1" max="10" class="form-control" name="bBaths" value="1" required />
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Frequency</label>
+                    <select class="form-select" name="bFreq" required>
+                      <option value="Once">Once</option>
+                      <option value="Weekly">Weekly</option>
+                      <option value="Biweekly">Biweekly</option>
+                      <option value="Monthly">Monthly</option>
+                    </select>
+                  </div>
+                  <div class="col-12"><label class="form-label">Extras</label>
+                    <div class="row g-2">
+                      <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="ventanas" id="ex1"><label class="form-check-label" for="ex1">Window cleaning</label></div></div>
+                      <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="horno" id="ex2"><label class="form-check-label" for="ex2">Oven</label></div></div>
+                      <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="refrigerador" id="ex3"><label class="form-check-label" for="ex3">Fridge</label></div></div>
+                      <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="plancha" id="ex4"><label class="form-check-label" for="ex4">Ironing</label></div></div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="alert alert-info small">Estimated rate: <strong id="estPrice">—</strong> <span class="text-muted">(updates according to your options)</span></div>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between mt-3">
+                  <button class="btn btn-outline-secondary" data-prev>Return</button>
+                  <button class="btn btn-brand" data-next>Following</button>
+                </div>
+              </div>
+
+              <!-- Paso 3: fecha y hora -->
+              <div class="booking-step d-none" data-booking-step="3">
+                <div class="row g-3">
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Date</label>
+                    <input type="date" class="form-control" name="bDate" required min="" />
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Hour</label>
+                    <input type="time" class="form-control" name="bTime" required />
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label">Address</label>
+                    <input type="text" class="form-control" name="bAddress" placeholder="Calle 123, Ciudad" required />
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Zip code</label>
+                    <input type="text" class="form-control" name="bZip" pattern="[0-9]{4,6}" required />
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between mt-3">
+                  <button class="btn btn-outline-secondary" data-prev>Return</button>
+                  <button class="btn btn-brand" data-next>Following</button>
+                </div>
+              </div>
+
+              <!-- Paso 4: contacto y pago -->
+              <div class="booking-step d-none" data-booking-step="4">
+                <div class="row g-3">
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Full name</label>
+                    <input type="text" class="form-control" name="cName" required />
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" name="cEmail" required />
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Phone</label>
+                    <input type="tel" class="form-control" name="cPhone" required />
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Payment method</label>
+                    <select class="form-select" name="cPay" required>
+                      <option value="tarjeta">Card</option>
+                      <option value="applepay">Apple Pay</option>
+                      <option value="efectivo">Cash</option>
+                      <option value="transferencia">Transfer</option>
+                    </select>
+                    <div class="mt-3">
+                      <div id="applePayContainer" class="d-none d-grid"></div>
+                      <div id="cardFallback" class="d-none small text-muted">Card payment available if Apple Pay is not supported.</div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="1" id="terms" required>
+                      <label class="form-check-label" for="terms">I accept the terms and conditions</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between mt-3">
+                  <button class="btn btn-outline-secondary" data-prev>Return</button>
+                  <button class="btn btn-brand" type="submit">Confirm and pay</button>
+                </div>
+              </div>
+            </form>
+
+          </div>
         </div>
-        <div class="col-md-3">
-          <label class="form-label">Rooms</label>
-          <input type="number" class="form-control" value="2" min="0" max="10">
-        </div>
-        <div class="col-md-3">
-          <label class="form-label">Bathrooms</label>
-          <input type="number" class="form-control" value="1" min="1" max="10">
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">Date</label>
-          <input type="date" class="form-control">
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">Hour</label>
-          <input type="time" class="form-control">
-        </div>
-        <div class="col-12">
-          <label class="form-label">Address</label>
-          <input type="text" class="form-control" placeholder="Calle 123, Ciudad">
-        </div>
-        <div class="col-12 text-center">
-          <button class="btn btn-custom btn-primary btn-lg" type="submit" style="background-color: var(--pristine-magenta) !important;border-color: var(--pristine-magenta) !important;">Confirm reservation</button>
-        </div>
-      </form>
+      </div>
     </div>
   </section>
-
-
+   <!-- ABOUT -->
+  <section data-view id="about" class="py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-9">
+          <div class="bg-white rounded-2xl shadow-soft p-4 p-lg-5">
+            <h2 class="fw-bold mb-3">About Pristine Homes</h2>
+            <p class="lead">We were born with a clear mission: to make cleaning simple, reliable, and sustainable.</p>
+            <p class="text-muted">Our team is comprised of vetted professionals with ongoing training and a focus on your satisfaction. We use environmentally friendly materials and standardized processes to ensure consistent results.</p>
+            <div class="row g-3 mt-2">
+              <div class="col-6 col-md-4"><div class="p-3 bg-white border rounded-2xl text-center"><div class="fw-bold">+5,000</div><div class="small text-muted">Reservations completed</div></div></div>
+              <div class="col-6 col-md-4"><div class="p-3 bg-white border rounded-2xl text-center"><div class="fw-bold">4.9/5</div><div class="small text-muted">Average rating</div></div></div>
+              <div class="col-6 col-md-4"><div class="p-3 bg-white border rounded-2xl text-center"><div class="fw-bold">48h</div><div class="small text-muted">Rework guarantee</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
    <!-- FAQ -->
   <section data-view id="faq" class="py-5">
     <div class="container">
@@ -414,18 +593,170 @@
     </div>
   </section>
 
+  <!-- Footer -->
 
-  </main>
 
+  <footer class="bg-dark text-light py-4">
+  <div class="container text-center">
+    <p>© <span id="y"></span> Pristine Homes.All rights reserved.</p>
+    <p>
+      <a href="#privacy" class="text-light">Privacy Policy</a> | 
+      <a href="#terms" class="text-light">Terms of Service</a>
+    </p>
+  </div>
+</footer>
 
-  
-
-  <footer class="bg-dark text-light py-3 text-center">
-    <div class="container">
-      <small>© 2025 Pristine Homes - All rights reserved</small>
-    </div>
-  </footer>
    <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+ <script>
+  (function(){
+    const views = document.querySelectorAll('[data-view]');
+    const navLinks = document.querySelectorAll('[data-link]');
+    const y = document.getElementById('y'); 
+    
+    // Check if y exists before setting textContent
+    if (y) {
+        y.textContent = new Date().getFullYear();
+    }
+    function setActive(hash){
+      const target = (hash || location.hash || '#home').replace('#','');
+      views.forEach(v=>v.classList.toggle('active', v.id===target));
+      document.querySelectorAll('.nav-link').forEach(a=>{
+        a.classList.toggle('active', a.getAttribute('href')===('#'+target));
+      });
+      if(target==='booking'){ initBooking(); }
+      if(target==='panel'){ renderBookings(); }
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    window.addEventListener('hashchange',()=>setActive(location.hash));
+    navLinks.forEach(a=>a.addEventListener('click', ev=>{
+      const href = a.getAttribute('href');
+      if(href && href.startsWith('#')){
+        ev.preventDefault();
+        history.pushState({}, '', href);
+        setActive(href);
+      }
+    }));
+
+    // Quick quote
+    const quickForm = document.getElementById('quickQuoteForm');
+    const quickRes = document.getElementById('quickQuoteResult');
+    quickForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(quickForm));
+      const price = estimatePrice(data.service, Number(data.beds||0), Number(data.baths||0), data.freq||'once', []);
+      quickRes.classList.remove('d-none');
+      quickRes.innerHTML = `Estimated rate: <strong>$ ${price.toFixed(2)}</strong> <span class="ms-2 text-muted">(may vary depending on availability)</span>`;
+    });
+
+    // Booking wizard
+    let booking = { step:1, service:null, details:{}, schedule:{}, contact:{}, price:0 };
+
+    function initBooking(){
+      booking = { step:1, service:null, details:{ beds:2, baths:1, freq:'una-vez', extras:[] }, schedule:{}, contact:{}, price:0 };
+      document.querySelectorAll('.booking-step').forEach((s,i)=>{ s.classList.toggle('d-none', i!==0); });
+      updateStepsUI();
+      const dateInput = document.querySelector('input[name="bDate"]');
+      const today = new Date(); today.setDate(today.getDate()+1);
+      dateInput.min = today.toISOString().split('T')[0];
+      document.querySelectorAll('[data-service]').forEach(card=>{
+        card.onclick = ()=>{ booking.service = card.getAttribute('data-service'); goToStep(2); };
+      });
+      document.querySelectorAll('[data-next]').forEach(btn=> btn.onclick = ()=> nextStep());
+      document.querySelectorAll('[data-prev]').forEach(btn=> btn.onclick = ()=> prevStep());
+      document.querySelectorAll('input[name="bBeds"], input[name="bBaths"], select[name="bFreq"], .form-check-input').forEach(el=>{ el.onchange = updateEstimate; });
+      updateEstimate();
+    }
+
+    function goToStep(n){ booking.step = n; showStep(n); updateStepsUI(); }
+    function nextStep(){ if(booking.step<4){ goToStep(booking.step+1); } }
+    function prevStep(){ if(booking.step>1){ goToStep(booking.step-1); } }
+
+    function showStep(n){
+      document.querySelectorAll('.booking-step').forEach(s=> s.classList.add('d-none'));
+      const target = document.querySelector(`.booking-step[data-booking-step="${n}"]`);
+      if(target) target.classList.remove('d-none');
+    }
+
+    function updateStepsUI(){
+      document.querySelectorAll('[data-step]').forEach(el=> el.classList.toggle('active', Number(el.getAttribute('data-step'))<=booking.step));
+    }
+
+    function estimatePrice(service, beds, baths, freq, extras){
+      const base = { Regular: 35, Deep: 50, Preparation: 45, MovingOut: 55, Apartament: 30, Office: 40 }[service || 'Regular'] || 35;
+      let price = base + beds*8 + baths*12;
+      if(freq==='Weekly') price *= 0.85;
+      if(freq==='Biweekly') price *= 0.9;
+      if(freq==='Monthly') price *= 0.95;
+      extras.forEach(x=>{ price += { windows:15, oven:15, refrigerator:12, iron:10 }[x] || 8; });
+      return price;
+    }
+
+    function updateEstimate(){
+      const beds = Number(document.querySelector('input[name="bBeds"]').value||0);
+      const baths = Number(document.querySelector('input[name="bBaths"]').value||0);
+      const freq = document.querySelector('select[name="bFreq"]').value;
+      const extras = Array.from(document.querySelectorAll('.form-check-input:checked')).map(x=>x.value);
+      const price = estimatePrice(booking.service||'Regular', beds, baths, freq, extras);
+      booking.details = { beds, baths, freq, extras };
+      booking.price = price;
+      document.getElementById('estPrice').textContent = `$ ${price.toFixed(2)}`;
+    }
+
+    document.querySelector('[data-booking-step="3"]').querySelector('[data-next]').addEventListener('click', ()=>{
+      const d = document.querySelector('input[name="bDate"]').value;
+      const t = document.querySelector('input[name="bTime"]').value;
+      const a = document.querySelector('input[name="bAddress"]').value;
+      const z = document.querySelector('input[name="bZip"]').value;
+      if(!d || !t || !a || !z){ alert('Complete date, time and address'); return; }
+      booking.schedule = { date:d, time:t, address:a, zip:z };
+    });
+
+    document.getElementById('bookingForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const n = document.querySelector('input[name="cName"]').value.trim();
+      const m = document.querySelector('input[name="cEmail"]').value.trim();
+      const p = document.querySelector('input[name="cPhone"]').value.trim();
+      const pay = document.querySelector('select[name="cPay"]').value;
+      const terms = document.getElementById('terms').checked;
+      if(!n||!m||!p||!pay||!terms){ alert('Complete your details and accept the terms.'); return; }
+      booking.contact = { name:n, email:m, phone:p, pay };
+      const record = { id: 'BK-'+Date.now(), service: booking.service, details: booking.details, schedule: booking.schedule, contact: booking.contact, price: booking.price, status: 'Confirmed' };
+      const bookings = JSON.parse(localStorage.getItem('bookings')||'[]');
+      bookings.push(record);
+      localStorage.setItem('bookings', JSON.stringify(bookings));
+      alert("Reservation confirmed! You'll receive an email with the details.");
+      location.hash = '#panel';
+      setActive('#panel');
+    });
+
+    function renderBookings(){
+      const tbody = document.getElementById('bookingTableBody');
+      const bookings = JSON.parse(localStorage.getItem('bookings')||'[]').reverse();
+      if(bookings.length===0){ tbody.innerHTML = '<tr><td colspan="7" class="text-muted">Sin reservas aún</td></tr>'; return; }
+      tbody.innerHTML = bookings.map(b=>{
+        const ex = (b.details.extras||[]).join(', ') || '—';
+        return `<tr><td>${b.schedule.date}</td><td>${b.schedule.time}</td><td>${labelService(b.service)}</td><td>${b.details.beds}/${b.details.baths}</td><td>${ex}</td><td>$ ${b.price.toFixed(2)}</td><td><span class="badge text-bg-success">${b.status}</span></td></tr>`
+      }).join('');
+    }
+
+    function labelService(s){
+      return ({Regular:'House Cleaning', Deep:'Deep Cleaning', Preparation:'Preparation Cleaning', MovingOut:'Move-In Cleaning', Apartament:'Apartment cleaning', Office:'Office cleaning'})[s] || s;
+    }
+
+    document.getElementById('btnClearBookings').addEventListener('click', ()=>{
+      if(confirm('Delete all booking history?')){
+        localStorage.removeItem('bookings');
+        renderBookings();
+      }
+    });
+
+    setActive(location.hash||'#home');
+  })();
+  </script>
+    <script type="module" src="/config.js"></script>
+
+
 </body>
 </html>
