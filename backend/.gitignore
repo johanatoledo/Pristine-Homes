@@ -3,7 +3,7 @@ node_modules/
 
 # Archivos de entorno y claves privadas
 .env
-.env.*
+.env.example
 
 
 
