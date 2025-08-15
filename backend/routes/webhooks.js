@@ -1,12 +1,14 @@
+//Archivo para saber el estado de pago 
+
 import express from 'express';
-import pool from '../db.js';
+import pool from '../src/db.js';
 import Stripe from 'stripe';
 
 const router = express.Router();
 
 // Stripe Webhook: usar express.raw
 router.post('/stripe', express.raw({ type: 'application/json' }), async (req, res) => {
-  const sig = req.headers['stripe-signature'];
+  const sig = req.headers['stripe-signature'];//Extrae la firma de Stripe de las cabeceras de la solicitud.
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
   let event;
   try {
@@ -39,21 +41,6 @@ router.post('/stripe', express.raw({ type: 'application/json' }), async (req, re
   res.json({ received: true });
 });
 
-// MercadoPago Webhook (simplificado)
-router.post('/mercadopago', express.json(), async (req, res) => {
-  // Según configuración, MP enviará notificaciones sobre pagos
-  // Aquí deberías validar/consultar el pago vía SDK/REST y actualizar la reserva.
-  // Ejemplo simplificado:
-  try {
-    const topic = req.query.topic || req.body.topic;
-    if (topic === 'payment') {
-      const dataId = req.query.id || req.body.data?.id;
-      // TODO: consultar estado del pago y actualizar booking/payments
-    }
-    res.json({ ok: true });
-  } catch (e) {
-    res.status(500).json({ error: 'webhook error' });
-  }
-});
+
 
 export default router;

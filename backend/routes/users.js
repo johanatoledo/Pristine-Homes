@@ -1,6 +1,6 @@
 import express from 'express';
-import pool from '../db.js';
-import { userSchema } from '../validators.js';
+import pool from '../src/db.js';
+import { userSchema } from '../src/validators.js';
 import { sanitizeString } from '../utils/sanitize.js';
 
 const router = express.Router();

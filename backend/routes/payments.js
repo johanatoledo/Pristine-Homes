@@ -1,11 +1,12 @@
+//archivo encargado de crear un Payment Intent con Stripe y devolver el client_secret necesario para el pago.
 import express from 'express';
-import pool from '../db.js';
+import pool from '../src/db.js';
 import Stripe from 'stripe';
-import mercadopago from 'mercadopago';
-import { stripeIntentSchema, mpPreferenceSchema } from '../validators.js';
+
+import { stripeIntentSchema } from '../src/validators.js';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-mercadopago.configure({ access_token: process.env.MP_ACCESS_TOKEN });
+
 
 const router = express.Router();
 
@@ -14,6 +15,7 @@ router.post('/stripe/create-payment-intent', async (req, res, next) => {
   try {
     const { bookingId } = stripeIntentSchema.parse(req.body);
 
+// Busca la reserva en tu base de datos utilizando el bookingId que recibiste.
     const [rows] = await pool.query('SELECT id, price FROM bookings WHERE id=:id', { id: bookingId });
     if (!rows.length) return res.status(404).json({ error: 'Reserva no encontrada' });
     const booking = rows[0];
@@ -29,32 +31,6 @@ router.post('/stripe/create-payment-intent', async (req, res, next) => {
   } catch (e) { next(e); }
 });
 
-// MercadoPago: crear Preference
-router.post('/mercadopago/create-preference', async (req, res, next) => {
-  try {
-    const { bookingId } = mpPreferenceSchema.parse(req.body);
 
-    const [rows] = await pool.query(
-      `SELECT b.id, b.price, s.name AS serviceName FROM bookings b
-       JOIN services s ON s.id=b.service_id WHERE b.id=:id`,
-      { id: bookingId }
-    );
-    if (!rows.length) return res.status(404).json({ error: 'Reserva no encontrada' });
-    const b = rows[0];
-
-    const preference = await mercadopago.preferences.create({
-      items: [{ title: `Reserva #${b.id} – ${b.serviceName}`, quantity: 1, unit_price: Number(b.price), currency_id: 'USD' }],
-      back_urls: {
-        success: `${process.env.FRONTEND_ORIGIN}/#panel`,
-        failure: `${process.env.FRONTEND_ORIGIN}/#panel`,
-        pending: `${process.env.FRONTEND_ORIGIN}/#panel`
-      },
-      auto_return: 'approved',
-      metadata: { bookingId: String(b.id) }
-    });
-
-    res.json({ init_point: preference.body.init_point, id: preference.body.id });
-  } catch (e) { next(e); }
-});
 
 export default router;

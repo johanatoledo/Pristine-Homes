@@ -1,0 +1,17 @@
+# Directorios de Node.js
+node_modules/
+
+# Archivos de entorno y claves privadas
+.env
+.env.*
+
+# Archivos de logs
+*.log
+
+# Archivos de caché
+.cache/
+.eslintcache
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db

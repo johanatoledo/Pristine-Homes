@@ -7,11 +7,11 @@ import cookieParser from 'cookie-parser';
 import csrf from 'csurf';
 import rateLimit from 'express-rate-limit';
 
-import servicesRoutes from './routes/services.js';
-import usersRoutes from './routes/users.js';
-import bookingsRoutes from './routes/bookings.js';
-import paymentsRoutes from './routes/payments.js';
-import webhooksRoutes from './routes/webhooks.js';
+import servicesRoutes from '../routes/services.js';
+import usersRoutes from '../routes/users.js';
+import bookingsRoutes from '../routes/bookings.js';
+import paymentsRoutes from '../routes/payments.js';
+import webhooksRoutes from '../routes/webhooks.js';
 
 const app = express();
 

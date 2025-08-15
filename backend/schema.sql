@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS pristine_homes CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE pristine_homes;
+CREATE DATABASE IF NOT EXISTS pristineHomes CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE pristineHomes;
 
 -- USERS
 CREATE TABLE IF NOT EXISTS users (
@@ -21,12 +21,12 @@ CREATE TABLE IF NOT EXISTS services (
 ) ENGINE=InnoDB;
 
 INSERT INTO services (code,name,description,base_price) VALUES
-('regular','Limpieza de casa','Mantenimiento regular',35.00),
-('profunda','Limpieza profunda','Detalle a fondo',50.00),
-('preparacion','Limpieza de preparación','Antes de evento/entrega',45.00),
-('mudanza','Limpieza de mudanza','Entrada/Salida',55.00),
-('apartamento','Limpieza de apartamentos','Eficiente y ágil',30.00),
-('oficina','Limpieza de oficina','Ambiente productivo',40.00)
+('Regular', 'House Cleaning', 'Regular Maintenance',35.00),
+('Deep', 'Deep Cleaning', 'Deep Detail',50.00),
+('Preparation', 'Preparation Cleaning', 'Before event/delivery',45.00),
+('MovingOut', 'Move-In Cleaning', 'Move-In/Move-Out',55.00),
+('Apartment', 'Apartment cleaning', 'Efficient and agile',30.00),
+('Office', 'Office cleaning', 'Productive environment',40.00)
 ON DUPLICATE KEY UPDATE name=VALUES(name), description=VALUES(description), base_price=VALUES(base_price);
 
 -- BOOKINGS
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS bookings (
   service_id BIGINT UNSIGNED NOT NULL,
   beds INT NOT NULL DEFAULT 0,
   baths INT NOT NULL DEFAULT 1,
-  freq ENUM('una-vez','semanal','quincenal','mensual') NOT NULL DEFAULT 'una-vez',
+  freq ENUM('Once', 'Weekly', 'Biweekly', 'Monthly') NOT NULL DEFAULT 'once',
   extras JSON NULL,                      -- ["ventanas","horno",...]
   date DATE NOT NULL,
   time TIME NOT NULL,
