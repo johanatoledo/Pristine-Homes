@@ -5,13 +5,5 @@ node_modules/
 .env
 .env.*
 
-# Archivos de logs
-*.log
 
-# Archivos de caché
-.cache/
-.eslintcache
 
-# Archivos de sistema
-.DS_Store
-Thumbs.db
