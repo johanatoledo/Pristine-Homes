@@ -2,8 +2,8 @@
 node_modules/
 
 # Archivos de entorno y claves privadas
-.env
-.env.example
+.env.development
+.env.production
 
 
 
