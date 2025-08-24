@@ -11,11 +11,11 @@ export const userSchema = z.object({
 //esquema para validar los datos de una reserva. 
 export const bookingSchema = z.object({
   userId: z.coerce.number().int().positive(),
-  serviceCode: z.enum(['Regular','Deep','Preparation','MovingOut','Apartament','Office']),
+  serviceCode: z.enum(['Regular','Deep','Preparation','MovingOut','Apartment','Office']),
   beds: z.coerce.number().int().min(0).max(10),
   baths: z.coerce.number().int().min(1).max(10),
   freq: z.enum(['Once','Weekly','Biweekly','Monthly']),
-  extras: z.array(z.enum(['windows','oven','refrigerator','iron'])).optional().default([]),
+  extras: z.array(z.enum(['windows','oven','fridge','iron'])).optional().default([]),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   time: z.string().regex(/^\d{2}:\d{2}/),
   address: z.string().min(5).max(255),

@@ -7,16 +7,13 @@
     "build": "vite build",
     "start": "vite preview"
   },
-  "keywords": [
-    "frontend",
-    "html",
-    "javascript",
-    "esmodules"
-  ],
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "vite": "^7.0.0"
+  },
   "author": "Johana Toledo",
   "license": "ISC",
-  "description": "",
-   "devDependencies": {
-    "vite": "^7.0.0"
-  }
+  "type": "module"
 }

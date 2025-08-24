@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Payment successful | Pristine Homes</title>
+   <link rel="icon" type="image/x-icon" href="/assets/logopristine.png"> 
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <style>
+    :root {
+  --pristine-magenta: #e747ad;
+  --pristine-black: #000000;
+  --pristine-white: #ffffff;
+}
+
+    /* estilos abreviados para claridad */
+    body { font-family: Inter, sans-serif; margin:0; display:grid; place-items:center; min-height:100vh; background:#f8fafc; color:#0f172a; }
+    .card { background:#fff; padding:2rem; border-radius:16px; max-width:700px; width:100%; box-shadow:0 10px 25px rgba(0,0,0,.15); }
+    h1 { margin:0 0 0.5rem; font-size:1.8rem; color:var(--pristine-magenta); }
+    .muted { color:#475569; }
+    .field { margin:.5rem 0; }
+    .label { font-weight:600; display:inline-block; width:120px; }
+    .value { color:#0f172a; }
+  </style>
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+    <div class="container">
+       <img  src="/assets/logoPristineTransp.png" class="logo" alt="Logo pristine homes">
+      <a class="navbar-brand fw-bold" href="#home" style="color: var(--pristine-magenta);">Pristine Homes</a>
+    </div>
+  </nav>
+  <main class="card">
+    <h1>Payment received</h1>
+    <p class="muted">Thanks! Your booking is confirmed if the payment shows as <strong>“succeeded”</strong>.</p>
+
+    <div class="field"><span class="label">Booking:</span> <span class="value" id="bookingId">—</span></div>
+    <div class="field"><span class="label">Amount:</span> <span class="value" id="amount">—</span></div>
+    <div class="field"><span class="label">Currency:</span> <span class="value" id="currency">—</span></div>
+    <div class="field"><span class="label">Status:</span> <span class="value" id="piStatus">—</span></div>
+    <div class="field"><span class="label">Intent ID:</span> <code id="piId">—</code></div>
+
+    <p class="muted">We’ll email you if the status changes (e.g., from <em>processing</em> to <em>succeeded</em>).</p>
+    <p>
+      <a href="/#panel">Go to dashboard</a> | 
+      <a href="/">Home</a> | 
+      <a href="mailto:support@pristinehomes.com">Support</a>
+    </p>
+  </main>
+
+ <script type="module" src="src/success.js"></script>
+  
+
+</body>
+</html>

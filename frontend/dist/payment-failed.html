@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Payment failed | Pristine Homes</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <style>
+    :root {
+  --pristine-magenta: #e747ad;
+  --pristine-black: #000000;
+  --pristine-white: #ffffff;
+}
+    body { font-family: Inter, sans-serif; margin:0; display:grid; place-items:center; min-height:100vh; background:#f8fafc; color:#0f172a; }
+    .card { background:#fff; padding:2rem; border-radius:16px; max-width:700px; width:100%; box-shadow:0 10px 25px rgba(0,0,0,.15); }
+    h1 { margin:0 0 0.5rem; font-size:1.8rem; color:var(--pristine-magenta); }
+    .muted { color:#475569; }
+    .field { margin:.5rem 0; }
+    .label { font-weight:600; display:inline-block; width:120px; }
+    .value { color:#0f172a; }
+    button { margin-top:1rem; padding:.6rem 1.2rem; border:none; border-radius:8px; background:var(--pristine-magenta); color:#fff; font-weight:600; cursor:pointer; }
+    button:hover { background:var(--pristine-black);color:var(--pristine-white); }
+  </style>
+  <script src="https://js.stripe.com/v3/"></script>
+  <script type="module" crossorigin src="/assets/paymentFailed-BLel0mgs.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+    <div class="container">
+       <img  src="/assets/logoPristineTransp.png" class="logo" alt="Logo pristine homes">
+      <a class="navbar-brand fw-bold" href="#home" style="color: var(--pristine-magenta);">Pristine Homes</a>
+    </div>
+  </nav>
+  <main class="card">
+    <h1>Payment failed</h1>
+    <p class="muted">Please try again or choose another method.</p>
+
+    <div class="field"><span class="label">Booking:</span> <span class="value" id="bookingId">—</span></div>
+    <div class="field"><span class="label">Amount:</span> <span class="value" id="amount">—</span></div>
+    <div class="field"><span class="label">Currency:</span> <span class="value" id="currency">—</span></div>
+    <div class="field"><span class="label">Status:</span> <span class="value" id="piStatus">—</span></div>
+    <div class="field"><span class="label">Error code:</span> <code id="errorCode">—</code></div>
+    <div class="field"><span class="label">Reason:</span> <span id="reason">—</span></div>
+
+    <button id="retryBtn">Try again</button>
+    <p>
+      <a href="/#booking">Change method</a> | 
+      <a href="mailto:support@pristinehomes.com">Support</a>
+    </p>
+  </main>
+</html>

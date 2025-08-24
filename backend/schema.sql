@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS bookings (
 CREATE TABLE IF NOT EXISTS payments (
   id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   booking_id BIGINT UNSIGNED NOT NULL,
-  provider ENUM('stripe','mercadopago') NOT NULL,
+  provider ENUM('stripe') NOT NULL,
   external_id VARCHAR(191) NOT NULL,     -- payment_intent/charge id o preference/collection id
   amount DECIMAL(10,2) NOT NULL,
   currency VARCHAR(8) NOT NULL DEFAULT 'USD',

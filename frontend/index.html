@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -21,13 +21,15 @@
 }
 
     body { font-family: Arial, sans-serif; }
-    .hero { background: url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=1600') center/cover no-repeat; color: var(--pristine-black); padding: 80px 0; }
+    .hero { background: url('/assets/banner.png') center/cover no-repeat; color: var(--pristine-black); padding: 80px 0; }
     .hero h1 { font-size: 2.5rem; }
     .nav-item:hover{color:var(--pristine-magenta) !important;}
     .list-hover:hover{color:var(--pristine-magenta)!important;}
+    .btn-custom{background-color: var(--pristine-magenta) !important; color: var(--pristine-white) !important; border-color: var(--pristine-magenta) !important;}
     .btn-custom:hover { transform: scale(1.05); transition: all 0.3s ease;}
     .accordion-button:not(.collapsed) { color: var(--pristine-white); background-color: var(--pristine-magenta);}
     .accordion-button:not(.collapsed)::after {filter: brightness(0) invert(1);}
+    .alert-info{background-color:#df8bdf; color:var(--pristine-black); border:none;}
     .btn-brand{background:var(--brand); color:var(--pristine-black); border:none;}
     .btn-brand:hover{background:var(--pristine-magenta); color:var(--pristine-white);}
     .btn-outline-brand{border-color:var(--pristine-magenta); color:var(--pristine-black);} 
@@ -38,9 +40,12 @@
     .rounded-2xl{border-radius: 1rem;} 
     .icon-circle{width:48px;height:48px;border-radius:9999px;display:inline-flex;align-items:center;justify-content:center;background:rgba(47,128,237,.12);color:var(--brand-2)}
     .nav-link.active{color:var(--pristine-magenta)!important; font-weight:600;}
+    .navbar-toggler-icon{color:var(--pristine-magenta) !important;}
     .step.active .step-index{background:var(--pristine-magenta); color:var(--pristine-white);}
     .step .step-index{width:36px;height:36px;border-radius:9999px;display:inline-flex;align-items:center;justify-content:center;background:#eef2f7;color:#445;}
-    .cursor-pointer{cursor:pointer}
+    .card.cursor-pointer {cursor:pointer;transition: transform 0.2s, box-shadow 0.2s; }
+    .card.cursor-pointer:hover {transform: translateY(-5px);box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */ }
+    .card.selected { border-color: #df8bdf; box-shadow: 0 10px 15px -2px rgba(210, 82, 197, 0.5), 0 4px 5px -3px rgba(187, 67, 198, 0.5); transform: scale(1.0); position: relative;z-index: 10;}
     [data-view]{display:none}
     [data-view].active{display:block}
     .service-card{transition: transform .2s ease, box-shadow .2s ease;}
@@ -59,7 +64,6 @@
      <div id="navMain" class="collapse navbar-collapse">
        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
          <li class="nav-item"><a class="nav-link list-hover" href="#home" data-link>Home</a></li>
-          <li class="nav-item"><a class="nav-link list-hover" href="#faq" data-link>FAQ</a></li>
           <li class="nav-item"><a class="nav-link list-hover" href="#about" data-link>About </a></li>
           <li class="nav-item"><a class="nav-link list-hover" href="#blog" data-link>Blog</a></li>
           <li class="nav-item"><a class="nav-link list-hover" href="#panel" data-link>My Dashboard</a></li>
@@ -68,9 +72,13 @@
       </div>
     </div>
   </nav>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain"
+        aria-controls="navMain" aria-expanded="false" aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon"></span>
+</button>
   
    <!-- HOME -->
-   <main data-view id="home" class="active"></main>
+   <main data-view id="home" class="active">
 
  <!-- Hero -->
     <section class="hero hero-min">
@@ -79,43 +87,40 @@
           <div class="col-12 col-lg-6">
             <span class="badge rounded-pill brand-pill mb-3">Professional Cleaning · Fast · Guaranteed</span>
             <h1 class="display-5 fw-bold lh-tight mb-3">Your spotless home in hours, not days</h1>
-            <div class="d-flex gap-2 mt-3">
-              <a href="#booking" class="btn btn-custom btn-brand btn-lg" style="background-color: var(--pristine-magenta) !important; color: var(--pristine-white) !important;" data-link>Book now</a>
-              <a href="#booking" class="btn btn-custom btn-outline-brand btn-lg" style="background-color: var(--pristine-magenta) !important; color: var(--pristine-white) !important;" data-link>Get a free quote</a>
-            </div>
+            <p class="lead mb-4">We take care of your home with our professional cleaning services. Book now and enjoy a pristine space.</p>
             <div class="d-flex gap-4 mt-4 small text-muted">
-              <div class="d-flex align-items-center gap-2"><span class="icon-circle" style="background:rgba(46,191,165,.12);color:var(--brand)"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Verified staff</div>
+              <div class="d-flex align-items-center gap-2"><span class="icon-circle" style="background:rgba(46,191,165,.12);color:var(--pristine-black)"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Verified staff</div>
               <div class="d-flex align-items-center gap-2"><span class="icon-circle"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>100% Guarantee</div>
-              <div class="d-flex align-items-center gap-2"><span class="icon-circle" style="background:rgba(46,191,165,.12);color:var(--brand)"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v4H3z"/><path d="M16 7v13a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2V7"/></svg></span>Eco-friendly</div>
+              <div class="d-flex align-items-center gap-2"><span class="icon-circle" style="background:rgba(46,191,165,.12);color:var(--pristine-black)"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v4H3z"/><path d="M16 7v13a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2V7"/></svg></span>Eco-friendly</div>
             </div>
           </div>
           <div class="col-12 col-lg-6">
             <div class="p-3 p-lg-4 bg-white-opaco rounded-2xl shadow-soft">
               <h2 class="h5 mb-3">Get a quick quote</h2>
-              <form id="quickQuoteForm" class="row g-2">
+              <form id="quickQuoteForm" class="row g-2" >
                 <div class="col-12 col-md-6">
                   <label class="form-label">Type of service</label>
                   <select class="form-select" name="service" required>
                     <option value="">Select…</option>
-                    <option value="regular">House cleaning</option>
-                    <option value="deep">Deep cleaning</option>
-                    <option value="preparation">Preparation cleaning</option>
-                    <option value="moving-out">Moving cleaning</option>
-                    <option value="apartament">Apartment cleaning</option>
-                    <option value="office">Office cleaning</option>
+                    <option value="Regular">House cleaning</option>
+                    <option value="Deep">Deep cleaning</option>
+                    <option value="Preparation">Preparation cleaning</option>
+                    <option value="MovingOut">Moving cleaning</option>
+                    <option value="Apartment">Apartment cleaning</option>
+                    <option value="Office">Office cleaning</option>
                   </select>
                 </div>
                 <div class="col-6 col-md-3">
                   <label class="form-label">Rooms</label>
-                  <input type="number" min="0" max="10" class="form-control" name="beds" value="2" required />
+                  <input type="number" min="0" max="10" class="form-control" name="bBeds" value="2" required />
                 </div>
                 <div class="col-6 col-md-3">
                   <label class="form-label">Bathrooms</label>
-                  <input type="number" min="1" max="10" class="form-control" name="baths" value="1" required />
+                  <input type="number" min="1" max="10" class="form-control" name="bBaths" value="1" required />
                 </div>
                 <div class="col-12 col-md-6">
                   <label class="form-label">Frequency</label>
-                  <select class="form-select" name="freq" required>
+                  <select class="form-select" name="bFreq" required>
                     <option value="Once">Once</option>
                     <option value="Weekly">Weekly</option>
                     <option value="Biweekly">Biweekly</option>
@@ -179,61 +184,61 @@
       <div class="row g-4">
         <div class="col-md-4">
           <div class="card h-100 shadow-lg ">
-            <img src="assets/casas.png" class="card-img-top" alt="Limpieza regular">
+            <img src="assets/casas.png" class="card-img-top" alt="Regular cleaning">
             <div class="card-body">
               <h5 class="card-title">House cleaning</h5>
               <p class="card-text">Periodic maintenance for your home.</p>
-              <a href="#booking" class="btn btn-custom btn-outline-primary  " style="background-color: var(--pristine-magenta) !important;color:var(--pristine-white) !important;border-color: var(--pristine-magenta) !important;">Reserve</a>
+              <a href="#booking" class="btn btn-custom btn-outline-primary " >Reserve</a>
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="card h-100 shadow-lg">
-            <img src="/assets/limpiezaprofunda.png" class="card-img-top" alt="Limpieza profunda">
+            <img src="/assets/limpiezaprofunda.png" class="card-img-top" alt="Deep cleaning">
             <div class="card-body">
               <h5 class="card-title">Deep cleaning</h5>
               <p class="card-text">Complete detail for all areas.</p>
-              <a href="#booking" class="btn btn-custom btn-outline-primary" style="background-color: var(--pristine-magenta) !important;color:var(--pristine-white) !important;border-color: var(--pristine-magenta) !important;">Reserve</a>
+              <a href="#booking" class="btn btn-custom btn-outline-primary" >Reserve</a>
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="card h-100 shadow-lg">
-            <img src="/assets/movcleaning.png" class="card-img-top" alt="Limpieza profunda">
+            <img src="/assets/movcleaning.png" class="card-img-top" alt="Move-In Cleaning">
             <div class="card-body">
               <h5 class="card-title">Move-In Cleaning</h5>
               <p class="card-text">Move-In/Move-Out cleaning.</p>
-              <a href="#booking" class="btn btn-custom btn-outline-primary" style="background-color: var(--pristine-magenta) !important;color:var(--pristine-white) !important;border-color: var(--pristine-magenta) !important;">Reserve</a>
+              <a href="#booking" class="btn btn-custom btn-outline-primary" >Reserve</a>
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="card h-100 shadow-lg">
-            <img src="assets/limpiezaPreparacion.png" class="card-img-top" alt="Limpieza de preparación">
+            <img src="assets/limpiezaPreparacion.png" class="card-img-top" alt="Preparation cleaning">
             <div class="card-body">
               <h5 class="card-title">Preparation cleaning</h5>
               <p class="card-text">Ideal before events or deliveries.</p>
-              <a href="#booking" class="btn btn-custom btn-outline-primary" style="background-color: var(--pristine-magenta) !important; color:var(--pristine-white) !important;border-color: var(--pristine-magenta) !important;">Reserve</a>
+              <a href="#booking" class="btn btn-custom btn-outline-primary" >Reserve</a>
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="card h-100 shadow-lg">
-            <img src="/assets/oficina.png" class="card-img-top" alt="Limpieza de oficinas">
+            <img src="/assets/oficina.png" class="card-img-top" alt="Office cleaning">
             <div class="card-body">
               <h5 class="card-title">Office Cleaning</h5>
               <p class="card-text">Ideal for the day to day of your business</p>
-              <a href="#booking" class="btn btn-custom btn-outline-primary" style="background-color: var(--pristine-magenta) !important;color:var(--pristine-white) !important;border-color: var(--pristine-magenta) !important;">Reserve</a>
+              <a href="#booking" class="btn btn-custom btn-outline-primary" >Reserve</a>
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="card h-100 shadow-lg">
-            <img src="assets/apartamento.png" class="card-img-top"  alt="Limpieza de Apartamentos">
+            <img src="assets/apartamento.png" class="card-img-top"  alt="Apartment cleaning">
             <div class="card-body">
               <h5 class="card-title">Apartment Cleaning</h5>
               <p class="card-text">Periodic maintenance for your home.</p>
-              <a href="#booking" class="btn btn-custom btn-outline-primary" style="background-color: var(--pristine-magenta) !important;color:var(--pristine-white) !important;border-color: var(--pristine-magenta) !important;" >Reserve</a>
+              <a href="#booking" class="btn btn-custom btn-outline-primary"  >Reserve</a>
             </div>
           </div>
         </div>
@@ -320,6 +325,22 @@
         </div>
       </div>
     </section>
+ 
+     <!-- FAQ -->
+  <section  id="faq" class="py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-9">
+          <h2 class="fw-bold text-center mb-4">Frequently asked questions</h2>
+          <div class="accordion" id="faqAcc">
+            <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#q1">Do you bring materials and equipament?</button></h2><div id="q1" class="accordion-collapse collapse show" data-bs-parent="#faqAcc"><div class="accordion-body">Yes, all included. If you prefer your own products, please indicate this in the reservation notes.</div></div></div>
+            <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q2">How does the warranty work?</button></h2><div id="q2" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body">If you are not satisfied, we will reschedule within 48 hours at no additional cost.</div></div></div>
+            <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q3">What payment methods do you accept?</button></h2><div id="q3" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body">Card, bank transfer, and cash. Secure payment upon confirmation of your reservation.</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
     
 
@@ -335,28 +356,49 @@
               <div class="small text-muted">4-step process</div>
             </div>
 
-            <!-- Progress -->
-            <div class="d-flex gap-2 mb-4">
-              <div class="step d-flex align-items-center gap-2" data-step="1">
-                <div class="step-index">1</div><div class="small">Service</div>
-              </div>
-              <div class="step d-flex align-items-center gap-2" data-step="2">
-                <div class="step-index">2</div><div class="small">Details</div>
-              </div>
-              <div class="step d-flex align-items-center gap-2" data-step="3">
-                <div class="step-index">3</div><div class="small">Date and time</div>
-              </div>
-              <div class="step d-flex align-items-center gap-2" data-step="4">
-                <div class="step-index">4</div><div class="small">Contact and payment</div>
-              </div>
+            <!-- Barra de progreso con clases de Bootstrap -->
+         <div class="d-flex justify-content-between align-items-center mb-5">
+    
+           <!-- Paso 1 -->
+           <div class="d-flex flex-column align-items-center flex-fill step active" data-step="1">
+             <div class="step-circle d-flex align-items-center justify-content-center rounded-circle bg-secondary-subtle text-secondary fw-bold">1</div>
+            <span class="mt-2 text-sm-start text-center text-muted fw-medium">Service</span>
+          </div>
+    
+        <!-- Línea de conexión -->
+         <div class="flex-fill border-top border-secondary-subtle mx-2"></div>
+
+        <!-- Paso 2 -->
+         <div class="d-flex flex-column align-items-center flex-fill step" data-step="2">
+           <div class="step-circle d-flex align-items-center justify-content-center rounded-circle bg-secondary-subtle text-secondary fw-bold">2</div>
+            <span class="mt-2 text-sm-start text-center text-muted fw-medium">Details</span>
+           </div>
+
+       <!-- Línea de conexión -->
+          <div class="flex-fill border-top border-secondary-subtle mx-2"></div>
+    
+       <!-- Paso 3 -->
+           <div class="d-flex flex-column align-items-center flex-fill step" data-step="3">
+            <div class="step-circle d-flex align-items-center justify-content-center rounded-circle bg-secondary-subtle text-secondary fw-bold">3</div>
+             <span class="mt-2 text-sm-start text-center text-muted fw-medium">Date & Time</span>
             </div>
+
+        <!-- Línea de conexión -->
+            <div class="flex-fill border-top border-secondary-subtle mx-2"></div>
+    
+        <!-- Paso 4 -->
+           <div class="d-flex flex-column align-items-center flex-fill step" data-step="4">
+             <div class="step-circle d-flex align-items-center justify-content-center rounded-circle bg-secondary-subtle text-secondary fw-bold">4</div>
+              <span class="mt-2 text-sm-start text-center text-muted fw-medium">Contact</span>
+            </div>
+          </div>
 
             <form id="bookingForm">
               <!-- Paso 1: seleccionar servicio -->
               <div class="booking-step" data-booking-step="1">
                 <div class="row g-3">
                   <div class="col-6 col-md-4">
-                    <div class="card h-100 border-0 shadow-soft cursor-pointer" data-service="regular">
+                    <div class="card h-100 border-0 shadow-soft cursor-pointer selected" data-service="Regular">
                       <div class="card-body text-center">
                         <div class="icon-circle mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-3-3.87"/><path d="M4 21v-2a4 4 0 0 1 3-3.87"/><circle cx="12" cy="7" r="4"/></svg></div>
                         <div class="fw-bold">House Cleaning</div>
@@ -365,7 +407,7 @@
                     </div>
                   </div>
                   <div class="col-6 col-md-4">
-                    <div class="card h-100 border-0 shadow-soft cursor-pointer" data-service="profunda">
+                    <div class="card h-100 border-0 shadow-soft cursor-pointer selected" data-service="Deep">
                       <div class="card-body text-center">
                         <div class="icon-circle mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-8 8-3 9 9-3 8-8-6-6z"/><path d="M22 2l-6 6"/></svg></div>
                         <div class="fw-bold">Deep Cleaning</div>
@@ -374,7 +416,7 @@
                     </div>
                   </div>
                   <div class="col-6 col-md-4">
-                    <div class="card h-100 border-0 shadow-soft cursor-pointer" data-service="preparacion">
+                    <div class="card h-100 border-0 shadow-soft cursor-pointer selected" data-service="Preparation">
                       <div class="card-body text-center">
                         <div class="icon-circle mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg></div>
                         <div class="fw-bold">Preparation Cleaning</div>
@@ -383,7 +425,7 @@
                     </div>
                   </div>
                   <div class="col-6 col-md-4">
-                    <div class="card h-100 border-0 shadow-soft cursor-pointer" data-service="mudanza">
+                    <div class="card h-100 border-0 shadow-soft cursor-pointer selected" data-service="MovingOut">
                       <div class="card-body text-center">
                         <div class="icon-circle mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v4H3z"/><path d="M16 7v13a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2V7"/></svg></div>
                         <div class="fw-bold">Move-In Cleaning</div>
@@ -392,17 +434,17 @@
                     </div>
                   </div>
                   <div class="col-6 col-md-4">
-                    <div class="card h-100 border-0 shadow-soft cursor-pointer" data-service="apartamento">
+                    <div class="card h-100 border-0 shadow-soft cursor-pointer selected" data-service="Apartment">
                       <div class="card-body text-center">
                         <div class="icon-circle mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7h14v14"/><path d="M9 21V10"/><path d="M15 21V14"/></svg></div>
-                        <div class="fw-bold">Apartament cleaning</div>
+                        <div class="fw-bold">Apartment cleaning</div>
                         <div class="small text-muted">Efficient and agile</div>
                       </div>
                     </div>
                   </div>
-                  
+        
                   <div class="col-6 col-md-4">
-                    <div class="card h-100 border-0 shadow-soft cursor-pointer" data-service="oficina">
+                    <div class="card h-100 border-0 shadow-soft cursor-pointer selected" data-service="Office">
                       <div class="card-body text-center">
                         <div class="icon-circle mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 3h-1a2 2 0 0 0-2 2v2H7V5a2 2 0 0 0-2-2H4"/></svg></div>
                         <div class="fw-bold">Office</div>
@@ -418,7 +460,7 @@
                 <div class="row g-3">
                   <div class="col-6 col-md-3">
                     <label class="form-label">Rooms</label>
-                    <input type="number" min="0" max="10" class="form-control" name="bBeds" value="2" required />
+                    <input type="number" min="0" max="10" class="form-control" name="bBeds" value="1" required />
                   </div>
                   <div class="col-6 col-md-3">
                     <label class="form-label">Bathrooms</label>
@@ -435,20 +477,17 @@
                   </div>
                   <div class="col-12"><label class="form-label">Extras</label>
                     <div class="row g-2">
-                      <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="ventanas" id="ex1"><label class="form-check-label" for="ex1">Window cleaning</label></div></div>
-                      <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="horno" id="ex2"><label class="form-check-label" for="ex2">Oven</label></div></div>
-                      <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="refrigerador" id="ex3"><label class="form-check-label" for="ex3">Fridge</label></div></div>
-                      <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="plancha" id="ex4"><label class="form-check-label" for="ex4">Ironing</label></div></div>
+                      <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="windows" id="ex1"><label class="form-check-label" for="ex1">Window cleaning</label></div></div>
+                      <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="oven" id="ex2"><label class="form-check-label" for="ex2">Oven</label></div></div>
+                      <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="fridge" id="ex3"><label class="form-check-label" for="ex3">Fridge</label></div></div>
+                      <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" value="iron" id="ex4"><label class="form-check-label" for="ex4">Ironing</label></div></div>
                     </div>
                   </div>
                   <div class="col-12">
                     <div class="alert alert-info small">Estimated rate: <strong id="estPrice">—</strong> <span class="text-muted">(updates according to your options)</span></div>
                   </div>
                 </div>
-                <div class="d-flex justify-content-between mt-3">
-                  <button class="btn btn-outline-secondary" data-prev>Return</button>
-                  <button class="btn btn-brand" data-next>Following</button>
-                </div>
+              
               </div>
 
               <!-- Paso 3: fecha y hora -->
@@ -471,10 +510,7 @@
                     <input type="text" class="form-control" name="bZip" pattern="[0-9]{4,6}" required />
                   </div>
                 </div>
-                <div class="d-flex justify-content-between mt-3">
-                  <button class="btn btn-outline-secondary" data-prev>Return</button>
-                  <button class="btn btn-brand" data-next>Following</button>
-                </div>
+               
               </div>
 
               <!-- Paso 4: contacto y pago -->
@@ -495,28 +531,35 @@
                   <div class="col-12 col-md-6">
                     <label class="form-label">Payment method</label>
                     <select class="form-select" name="cPay" required>
-                      <option value="tarjeta">Card</option>
-                      <option value="applepay">Apple Pay</option>
-                      <option value="efectivo">Cash</option>
-                      <option value="transferencia">Transfer</option>
+                      <option value="card">Card</option>
+                      <option value="cash">Cash</option>
+                      <option value="transfer">Transfer</option>
                     </select>
-                    <div class="mt-3">
-                      <div id="applePayContainer" class="d-none d-grid"></div>
-                      <div id="cardFallback" class="d-none small text-muted">Card payment available if Apple Pay is not supported.</div>
-                    </div>
                   </div>
+                     <div class="col-12 mt-3 d-none" id="stripe-payment-form">
+                       <div id="payment-element" class="mb-3"></div>
+                        <div id="payment-message" class="small text-danger mb-2"></div>
+                         <button class="btn btn-brand" id="submit-payment" type="button" disabled>Pay now</button>
+                      </div>
+
                   <div class="col-12">
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="1" id="terms" required>
-                      <label class="form-check-label" for="terms">I accept the terms and conditions</label>
+                      <input class="form-check-input" type="checkbox" value="1" id="termsCheck" required>
+                      <label class="form-check-label" for="termsCheck">I accept the terms and conditions</label>
                     </div>
                   </div>
                 </div>
                 <div class="d-flex justify-content-between mt-3">
-                  <button class="btn btn-outline-secondary" data-prev>Return</button>
-                  <button class="btn btn-brand" type="submit">Confirm and pay</button>
-                </div>
-              </div>
+                   <button type="button" class="btn btn-outline-secondary" data-prev>Return</button>
+                     <button type="button" class="btn btn-brand" data-next>Confirm and pay</button>
+                 </div>
+
+              <!-- Los botones Siguiente y Atrás -->
+                  <div id="wizard-nav-buttons">
+                     <button type="button"  class="btn btn-outline-secondary" data-prev>Return</button>
+                   <button type="button" class="btn btn-brand" data-next>Following</button>
+                 </div>
+
             </form>
 
           </div>
@@ -543,21 +586,7 @@
       </div>
     </div>
   </section>
-   <!-- FAQ -->
-  <section data-view id="faq" class="py-5">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-12 col-lg-9">
-          <h2 class="fw-bold text-center mb-4">Frequently asked questions</h2>
-          <div class="accordion" id="faqAcc">
-            <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#q1">Do you bring materials and equipment?</button></h2><div id="q1" class="accordion-collapse collapse show" data-bs-parent="#faqAcc"><div class="accordion-body">Yes, all included. If you prefer your own products, please indicate this in the reservation notes.</div></div></div>
-            <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q2">How does the warranty work?</button></h2><div id="q2" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body">If you are not satisfied, we will reschedule within 48 hours at no additional cost.</div></div></div>
-            <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q3">What payment methods do you accept?</button></h2><div id="q3" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body">Card, bank transfer, and cash. Secure payment upon confirmation of your reservation.</div></div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+
 
   <!-- BLOG (placeholder) -->
   <section data-view id="blog" class="py-5">
@@ -608,154 +637,8 @@
 
    <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
- <script>
-  (function(){
-    const views = document.querySelectorAll('[data-view]');
-    const navLinks = document.querySelectorAll('[data-link]');
-    const y = document.getElementById('y'); 
-    
-    // Check if y exists before setting textContent
-    if (y) {
-        y.textContent = new Date().getFullYear();
-    }
-    function setActive(hash){
-      const target = (hash || location.hash || '#home').replace('#','');
-      views.forEach(v=>v.classList.toggle('active', v.id===target));
-      document.querySelectorAll('.nav-link').forEach(a=>{
-        a.classList.toggle('active', a.getAttribute('href')===('#'+target));
-      });
-      if(target==='booking'){ initBooking(); }
-      if(target==='panel'){ renderBookings(); }
-      window.scrollTo({top:0, behavior:'smooth'});
-    }
-
-    window.addEventListener('hashchange',()=>setActive(location.hash));
-    navLinks.forEach(a=>a.addEventListener('click', ev=>{
-      const href = a.getAttribute('href');
-      if(href && href.startsWith('#')){
-        ev.preventDefault();
-        history.pushState({}, '', href);
-        setActive(href);
-      }
-    }));
-
-    // Quick quote
-    const quickForm = document.getElementById('quickQuoteForm');
-    const quickRes = document.getElementById('quickQuoteResult');
-    quickForm.addEventListener('submit', (e)=>{
-      e.preventDefault();
-      const data = Object.fromEntries(new FormData(quickForm));
-      const price = estimatePrice(data.service, Number(data.beds||0), Number(data.baths||0), data.freq||'once', []);
-      quickRes.classList.remove('d-none');
-      quickRes.innerHTML = `Estimated rate: <strong>$ ${price.toFixed(2)}</strong> <span class="ms-2 text-muted">(may vary depending on availability)</span>`;
-    });
-
-    // Booking wizard
-    let booking = { step:1, service:null, details:{}, schedule:{}, contact:{}, price:0 };
-
-    function initBooking(){
-      booking = { step:1, service:null, details:{ beds:2, baths:1, freq:'una-vez', extras:[] }, schedule:{}, contact:{}, price:0 };
-      document.querySelectorAll('.booking-step').forEach((s,i)=>{ s.classList.toggle('d-none', i!==0); });
-      updateStepsUI();
-      const dateInput = document.querySelector('input[name="bDate"]');
-      const today = new Date(); today.setDate(today.getDate()+1);
-      dateInput.min = today.toISOString().split('T')[0];
-      document.querySelectorAll('[data-service]').forEach(card=>{
-        card.onclick = ()=>{ booking.service = card.getAttribute('data-service'); goToStep(2); };
-      });
-      document.querySelectorAll('[data-next]').forEach(btn=> btn.onclick = ()=> nextStep());
-      document.querySelectorAll('[data-prev]').forEach(btn=> btn.onclick = ()=> prevStep());
-      document.querySelectorAll('input[name="bBeds"], input[name="bBaths"], select[name="bFreq"], .form-check-input').forEach(el=>{ el.onchange = updateEstimate; });
-      updateEstimate();
-    }
-
-    function goToStep(n){ booking.step = n; showStep(n); updateStepsUI(); }
-    function nextStep(){ if(booking.step<4){ goToStep(booking.step+1); } }
-    function prevStep(){ if(booking.step>1){ goToStep(booking.step-1); } }
-
-    function showStep(n){
-      document.querySelectorAll('.booking-step').forEach(s=> s.classList.add('d-none'));
-      const target = document.querySelector(`.booking-step[data-booking-step="${n}"]`);
-      if(target) target.classList.remove('d-none');
-    }
-
-    function updateStepsUI(){
-      document.querySelectorAll('[data-step]').forEach(el=> el.classList.toggle('active', Number(el.getAttribute('data-step'))<=booking.step));
-    }
-
-    function estimatePrice(service, beds, baths, freq, extras){
-      const base = { Regular: 35, Deep: 50, Preparation: 45, MovingOut: 55, Apartament: 30, Office: 40 }[service || 'Regular'] || 35;
-      let price = base + beds*8 + baths*12;
-      if(freq==='Weekly') price *= 0.85;
-      if(freq==='Biweekly') price *= 0.9;
-      if(freq==='Monthly') price *= 0.95;
-      extras.forEach(x=>{ price += { windows:15, oven:15, refrigerator:12, iron:10 }[x] || 8; });
-      return price;
-    }
-
-    function updateEstimate(){
-      const beds = Number(document.querySelector('input[name="bBeds"]').value||0);
-      const baths = Number(document.querySelector('input[name="bBaths"]').value||0);
-      const freq = document.querySelector('select[name="bFreq"]').value;
-      const extras = Array.from(document.querySelectorAll('.form-check-input:checked')).map(x=>x.value);
-      const price = estimatePrice(booking.service||'Regular', beds, baths, freq, extras);
-      booking.details = { beds, baths, freq, extras };
-      booking.price = price;
-      document.getElementById('estPrice').textContent = `$ ${price.toFixed(2)}`;
-    }
-
-    document.querySelector('[data-booking-step="3"]').querySelector('[data-next]').addEventListener('click', ()=>{
-      const d = document.querySelector('input[name="bDate"]').value;
-      const t = document.querySelector('input[name="bTime"]').value;
-      const a = document.querySelector('input[name="bAddress"]').value;
-      const z = document.querySelector('input[name="bZip"]').value;
-      if(!d || !t || !a || !z){ alert('Complete date, time and address'); return; }
-      booking.schedule = { date:d, time:t, address:a, zip:z };
-    });
-
-    document.getElementById('bookingForm').addEventListener('submit', (e)=>{
-      e.preventDefault();
-      const n = document.querySelector('input[name="cName"]').value.trim();
-      const m = document.querySelector('input[name="cEmail"]').value.trim();
-      const p = document.querySelector('input[name="cPhone"]').value.trim();
-      const pay = document.querySelector('select[name="cPay"]').value;
-      const terms = document.getElementById('terms').checked;
-      if(!n||!m||!p||!pay||!terms){ alert('Complete your details and accept the terms.'); return; }
-      booking.contact = { name:n, email:m, phone:p, pay };
-      const record = { id: 'BK-'+Date.now(), service: booking.service, details: booking.details, schedule: booking.schedule, contact: booking.contact, price: booking.price, status: 'Confirmed' };
-      const bookings = JSON.parse(localStorage.getItem('bookings')||'[]');
-      bookings.push(record);
-      localStorage.setItem('bookings', JSON.stringify(bookings));
-      alert("Reservation confirmed! You'll receive an email with the details.");
-      location.hash = '#panel';
-      setActive('#panel');
-    });
-
-    function renderBookings(){
-      const tbody = document.getElementById('bookingTableBody');
-      const bookings = JSON.parse(localStorage.getItem('bookings')||'[]').reverse();
-      if(bookings.length===0){ tbody.innerHTML = '<tr><td colspan="7" class="text-muted">Sin reservas aún</td></tr>'; return; }
-      tbody.innerHTML = bookings.map(b=>{
-        const ex = (b.details.extras||[]).join(', ') || '—';
-        return `<tr><td>${b.schedule.date}</td><td>${b.schedule.time}</td><td>${labelService(b.service)}</td><td>${b.details.beds}/${b.details.baths}</td><td>${ex}</td><td>$ ${b.price.toFixed(2)}</td><td><span class="badge text-bg-success">${b.status}</span></td></tr>`
-      }).join('');
-    }
-
-    function labelService(s){
-      return ({Regular:'House Cleaning', Deep:'Deep Cleaning', Preparation:'Preparation Cleaning', MovingOut:'Move-In Cleaning', Apartament:'Apartment cleaning', Office:'Office cleaning'})[s] || s;
-    }
-
-    document.getElementById('btnClearBookings').addEventListener('click', ()=>{
-      if(confirm('Delete all booking history?')){
-        localStorage.removeItem('bookings');
-        renderBookings();
-      }
-    });
-
-    setActive(location.hash||'#home');
-  })();
-  </script>
-    <script type="module" src="/config.js"></script>
+  <!-- Main JS -->
+  <script type="module" src="src/main.js"></script>
 
 
 </body>
