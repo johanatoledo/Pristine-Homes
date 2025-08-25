@@ -29,7 +29,7 @@
     .btn-custom:hover { transform: scale(1.05); transition: all 0.3s ease;}
     .accordion-button:not(.collapsed) { color: var(--pristine-white); background-color: var(--pristine-magenta);}
     .accordion-button:not(.collapsed)::after {filter: brightness(0) invert(1);}
-    .alert-info{background-color:#df8bdf; color:var(--pristine-black); border:none;}
+    .alert-info{background-color:var(--brand); color:var(--pristine-black); border:none;}
     .btn-brand{background:var(--brand); color:var(--pristine-black); border:none;}
     .btn-brand:hover{background:var(--pristine-magenta); color:var(--pristine-white);}
     .btn-outline-brand{border-color:var(--pristine-magenta); color:var(--pristine-black);} 
@@ -41,8 +41,9 @@
     .icon-circle{width:48px;height:48px;border-radius:9999px;display:inline-flex;align-items:center;justify-content:center;background:rgba(47,128,237,.12);color:var(--brand-2)}
     .nav-link.active{color:var(--pristine-magenta)!important; font-weight:600;}
     .navbar-toggler-icon{color:var(--pristine-magenta) !important;}
-    .step.active .step-index{background:var(--pristine-magenta); color:var(--pristine-white);}
-    .step .step-index{width:36px;height:36px;border-radius:9999px;display:inline-flex;align-items:center;justify-content:center;background:#eef2f7;color:#445;}
+    .step-circle {width: 48px;height: 48px; background-color: var(--pristine-magenta) !important;color: var(--pristine-white) !important; }
+    .text-black { color: var(--pristine-black) !important; }
+    .step.active .step-circle:active { background-color: var(--pristine-magenta) !important; color: var(--pristine-white) !important; }
     .card.cursor-pointer {cursor:pointer;transition: transform 0.2s, box-shadow 0.2s; }
     .card.cursor-pointer:hover {transform: translateY(-5px);box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */ }
     .card.selected { border-color: #df8bdf; box-shadow: 0 10px 15px -2px rgba(210, 82, 197, 0.5), 0 4px 5px -3px rgba(187, 67, 198, 0.5); transform: scale(1.0); position: relative;z-index: 10;}
@@ -55,7 +56,7 @@
     .footer a{color:inherit;text-decoration:none}
     .footer a:hover{color:var(--brand)}
   </style>
-  <script type="module" crossorigin src="/assets/main-D51FvhUB.js"></script>
+  <script type="module" crossorigin src="/assets/main-G9BzkD-7.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
   <link rel="modulepreload" crossorigin href="/assets/config-DgteQrrW.js">
 </head>
@@ -365,7 +366,7 @@
            <!-- Paso 1 -->
            <div class="d-flex flex-column align-items-center flex-fill step active" data-step="1">
              <div class="step-circle d-flex align-items-center justify-content-center rounded-circle bg-secondary-subtle text-secondary fw-bold">1</div>
-            <span class="mt-2 text-sm-start text-center text-muted fw-medium">Service</span>
+            <span class="mt-2 text-sm-start text-center text-muted fw-medium text-black">Service</span>
           </div>
     
         <!-- Línea de conexión -->
@@ -374,7 +375,7 @@
         <!-- Paso 2 -->
          <div class="d-flex flex-column align-items-center flex-fill step" data-step="2">
            <div class="step-circle d-flex align-items-center justify-content-center rounded-circle bg-secondary-subtle text-secondary fw-bold">2</div>
-            <span class="mt-2 text-sm-start text-center text-muted fw-medium">Details</span>
+            <span class="mt-2 text-sm-start text-center text-muted fw-medium text-black">Details</span>
            </div>
 
        <!-- Línea de conexión -->
@@ -383,7 +384,7 @@
        <!-- Paso 3 -->
            <div class="d-flex flex-column align-items-center flex-fill step" data-step="3">
             <div class="step-circle d-flex align-items-center justify-content-center rounded-circle bg-secondary-subtle text-secondary fw-bold">3</div>
-             <span class="mt-2 text-sm-start text-center text-muted fw-medium">Date & Time</span>
+             <span class="mt-2 text-sm-start text-center text-muted fw-medium text-black">Date & Time</span>
             </div>
 
         <!-- Línea de conexión -->
@@ -392,7 +393,7 @@
         <!-- Paso 4 -->
            <div class="d-flex flex-column align-items-center flex-fill step" data-step="4">
              <div class="step-circle d-flex align-items-center justify-content-center rounded-circle bg-secondary-subtle text-secondary fw-bold">4</div>
-              <span class="mt-2 text-sm-start text-center text-muted fw-medium">Contact</span>
+              <span class="mt-2 text-sm-start text-center text-muted fw-medium text-black">Contact</span>
             </div>
           </div>
 
@@ -552,18 +553,15 @@
                     </div>
                   </div>
                 </div>
-                <div class="d-flex justify-content-between mt-3">
-                   <button type="button" class="btn btn-outline-secondary" data-prev>Return</button>
-                     <button type="button" class="btn btn-brand" data-next>Confirm and pay</button>
-                 </div>
+              </div>
 
-              <!-- Los botones Siguiente y Atrás -->
-                  <div id="wizard-nav-buttons">
-                     <button type="button"  class="btn btn-outline-secondary" data-prev>Return</button>
-                   <button type="button" class="btn btn-brand" data-next>Following</button>
-                 </div>
-
+              <!-- Los botones Siguiente y Atrás (ahora unificados y dentro del form) -->
+              <div id="wizard-nav-buttons" class="d-flex justify-content-between mt-4">
+                <button type="button" class="btn btn-outline-secondary" data-prev>Return</button>
+                <button type="button" class="btn btn-brand" data-next>Following</button>
+              </div>
             </form>
+          </div>
 
           </div>
         </div>

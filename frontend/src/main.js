@@ -18,7 +18,7 @@ function onReady(cb) {
 async function fetchCsrfToken() {
   try {
     const res = await fetch('/api/csrf-token');
-    if (!res.ok) throw new Error('No se pudo obtener el token CSRF.');
+    if (!res.ok) throw new Error('Failed to get token CSRF.');
     const data = await res.json();
     csrfToken = data.csrfToken;
     console.log('CSRF Token obtenido:', csrfToken);
@@ -26,9 +26,9 @@ async function fetchCsrfToken() {
     // Inicializa la UI de forma segura respecto al estado del DOM
     setupPageLogic();
   } catch (error) {
-    console.error('Error al obtener el token CSRF:', error);
+    console.error('Error getting token CSRF:', error);
     document.body.classList.add('loading');
-    alert('No se pudo cargar la aplicación. Intenta de nuevo más tarde.');
+    alert('The application could not be loaded. Please try again later.');
   }
 }
 
@@ -112,9 +112,14 @@ function setupPageLogic() {
       currentStep = step;
       updateProgress();
 
-      // Controla la visibilidad de los botones de navegación generales
-      if (wizardNav) {
-          wizardNav.classList.toggle('d-none', step === bookingSteps.length);
+      // Cambia el texto del botón "Siguiente" en el último paso
+      const nextButton = document.querySelector('#wizard-nav-buttons [data-next]');
+      if (nextButton) {
+        if (step === bookingSteps.length) {
+          nextButton.textContent = 'Confirm and Pay';
+        } else {
+          nextButton.textContent = 'Following';
+        }
       }
       return true;
     }
@@ -122,10 +127,20 @@ function setupPageLogic() {
     // ====== Navegación: enlazar TODOS los botones ======
   // Next
   document.querySelectorAll('[data-next]').forEach(btn => {
-    btn.addEventListener('click', (ev) => {
+    btn.addEventListener('click', async (ev) => {
       ev.preventDefault(); // por si acaso dentro de <form>
       if (validateStep(currentStep)) {
-        if (currentStep < bookingSteps.length) showStep(currentStep + 1);
+        if (currentStep < bookingSteps.length) {
+          showStep(currentStep + 1);
+        } else {
+          // Lógica del último paso: el botón "Confirmar y Pagar"
+          const payMethod = paySelect?.value;
+          if (payMethod === 'card') {
+            submitBtn?.click(); // Dispara el pago con Stripe que está oculto
+          } else {
+            await handleNonCardBooking(); // Maneja reserva para efectivo/transferencia
+          }
+        }
       }
     });
   });
@@ -209,33 +224,34 @@ function setupPageLogic() {
     }
 
     function getQuotePayload() {
-        let serviceCode, beds, baths, freq, zip;
+      let serviceCode, beds, baths, freq, zip;
+      const bookingView = document.getElementById('booking');
 
-        if (quickQuoteForm && !quickQuoteForm.classList.contains('hidden')) {
-            serviceCode = document.querySelector('#quickQuoteForm select[name="service"]')?.value || null;
-            beds  = Number(document.querySelector('#quickQuoteForm input[name="bBeds"]')?.value || '0');
-            baths = Number(document.querySelector('#quickQuoteForm input[name="bBaths"]')?.value || '1');
-            freq  = document.querySelector('#quickQuoteForm select[name="bFreq"]')?.value || 'Once';
-            zip   = document.querySelector('#quickQuoteForm input[name="zip"]')?.value || '';
-        } else {
-            const activeServiceCard = document.querySelector('[data-service].selected');
-            serviceCode = activeServiceCard ? activeServiceCard.getAttribute('data-service') : null;
-            beds  = Number(document.querySelector('[data-booking-step="2"] input[name="bBeds"]')?.value || '0');
-            baths = Number(document.querySelector('[data-booking-step="2"] input[name="bBaths"]')?.value || '1');
-            freq  = document.querySelector('[data-booking-step="2"] select[name="bFreq"]')?.value || 'Once';
-            zip   = document.querySelector('[data-booking-step="3"] input[name="bZip"]')?.value || '0000';
-        }
+      // Use data from the booking wizard if its view is active
+      if (bookingView && bookingView.classList.contains('active')) {
+          const activeServiceCard = document.querySelector('[data-service].selected');
+          serviceCode = activeServiceCard ? activeServiceCard.getAttribute('data-service') : null;
+          beds  = Number(document.querySelector('[data-booking-step="2"] input[name="bBeds"]')?.value || '0');
+          baths = Number(document.querySelector('[data-booking-step="2"] input[name="bBaths"]')?.value || '1');
+          freq  = document.querySelector('[data-booking-step="2"] select[name="bFreq"]')?.value || 'Once';
+          zip   = document.querySelector('[data-booking-step="3"] input[name="bZip"]')?.value || '0000';
+      } else { // Otherwise, assume quick quote form on home page
+          serviceCode = document.querySelector('#quickQuoteForm select[name="service"]')?.value || null;
+          beds  = Number(document.querySelector('#quickQuoteForm input[name="bBeds"]')?.value || '0');
+          baths = Number(document.querySelector('#quickQuoteForm input[name="bBaths"]')?.value || '1');
+          freq  = document.querySelector('#quickQuoteForm select[name="bFreq"]')?.value || 'Once';
+          zip   = document.querySelector('#quickQuoteForm input[name="zip"]')?.value || '';
+      }
 
-        const extras = Array.from(document.querySelectorAll('[data-booking-step="2"] input[type="checkbox"]:checked')).map(i => i.value);
+      const extras = Array.from(document.querySelectorAll('[data-booking-step="2"] input[type="checkbox"]:checked')).map(i => i.value);
 
-        if (!serviceCode ) {
-            console.log('Datos de cotización incompletos: falta serviceCode.');
-            return null;
-        }
+      if (!serviceCode) { // This will catch null, undefined, and ""
+          console.log('Incomplete quote data: missing serviceCode.');
+          return null;
+      }
 
-        return { serviceCode, beds, baths, freq, extras, zip };
+      return { serviceCode, beds, baths, freq, extras, zip };
     }
-
 
     function getSelectedServiceCode() {
       const active = document.querySelector('[data-service].selected');
@@ -248,36 +264,9 @@ function setupPageLogic() {
         .map(i => i.value);
     }
 
-    function normalizeToMinor(amount) {
-  if (amount == null) return null;
-  let n = typeof amount === 'string' ? Number(amount) : amount;
-  if (!Number.isFinite(n)) return null;
-
-  // Heurística:
-  // - Si tiene decimales → asumimos mayores (49.99) y pasamos a menores.
-  // - Si es entero:
-  //    * si es < 1000 y zona habitual de precios → podría ser mayores -> convierte
-  //    * si es grande (>= 1000) -> ya son menores (centavos)
-  if (!Number.isInteger(n)) return Math.round(n * 100);
-  if (n < 1000) return n * 100;   // 49 -> $49.00
-  return n;                       // 4999 -> $49.99
-}
-
-function formatCurrencyUniversal(amount, currency = 'USD', locale = navigator.language) {
-  const minor = normalizeToMinor(amount);
-  if (minor == null) return '—';
-  const value = minor / 100;
-  try {
-    return new Intl.NumberFormat(locale, { style: 'currency', currency }).format(value);
-  } catch {
-    return `${value} ${currency}`;
-  }
-}
-
-function setEstimateInUI(amount, currency) {
-  if (estPriceEl) estPriceEl.textContent = formatCurrencyUniversal(amount, currency || 'USD');
-}
-
+    function setEstimateInUI(amount, currency) {
+      if (estPriceEl) estPriceEl.textContent = formatCurrency(amount, currency || 'USD');
+    }
 
     function getBookingPayload() {
       const serviceCode = getSelectedServiceCode();
@@ -311,7 +300,7 @@ function setEstimateInUI(amount, currency) {
         const payload = getQuotePayload();
 
         if (!payload) {
-          console.log('Datos de cotización incompletos, no se hará la llamada a la API.');
+          console.log('Incomplete quote data, the API call will not be made.');
           return;
         }
 
@@ -360,9 +349,9 @@ function setEstimateInUI(amount, currency) {
           if (box) {
             box.classList.remove('d-none', 'alert-info');
             box.classList.add('alert');
-            box.textContent = 'No se pudo calcular la cotización. Por favor, revisa tus datos de entrada.';
+            box.textContent = 'The quote could not be calculated. Please check your input.';
           }
-          uiError('No se pudo refrescar la cotización. Intenta de nuevo.');
+          uiError('The quote could not be refreshed. Please try again.');
         }
       }, 250);
     }
@@ -405,10 +394,10 @@ function setEstimateInUI(amount, currency) {
           },
           body: JSON.stringify({ ...booking, quoteId: currentQuote?.quoteId || null })
         });
-        if (!resBooking.ok) throw new Error(await resBooking.text() || 'No se pudo crear la reserva.');
+        if (!resBooking.ok) throw new Error(await resBooking.text() || 'The reservation could not be created.');
         const created = await resBooking.json();
         bookingId = created?.id;
-        if (!bookingId) throw new Error('Falta el ID de la reserva.');
+        if (!bookingId) throw new Error('Reservation ID is missing.');
 
         const resPI = await fetch('/stripe/create-payment-intent', {
           method: 'POST',
@@ -418,9 +407,9 @@ function setEstimateInUI(amount, currency) {
           },
           body: JSON.stringify({ bookingId })
         });
-        if (!resPI.ok) throw new Error(await resPI.text() || 'No se pudo crear el PaymentIntent.');
+        if (!resPI.ok) throw new Error(await resPI.text() || 'The PaymentIntent could not be created.');
         const { clientSecret } = await resPI.json();
-        if (!clientSecret) throw new Error('Falta el clientSecret.');
+        if (!clientSecret) throw new Error('The clientSecret is missing.');
 
         elements = stripe.elements({ clientSecret });
         paymentElement = elements.create('payment', { fields: { billingDetails: { address: 'never' } } });
@@ -429,7 +418,7 @@ function setEstimateInUI(amount, currency) {
         if (submitBtn) submitBtn.disabled = !(termsCheck?.checked && !paymentWrap?.classList.contains('hidden'));
       } catch (err) {
         console.error(err);
-        uiError(err.message || 'Error inicializando el pago.');
+        uiError(err.message || 'Error initializing payment.');
         if (submitBtn) submitBtn.disabled = true;
       }
     }
@@ -440,17 +429,17 @@ function setEstimateInUI(amount, currency) {
           const ok2 = validateStep(2);
           const ok3 = validateStep(3);
           if (!ok2 || !ok3) {
-            uiError('Completa los pasos previos antes de proceder al pago.');
+            uiError('Complete the previous steps before proceeding to payment.');
             if (!ok2) showStep(2); else showStep(3);
-            paymentWrap?.classList.add('hidden');
+            paymentWrap?.classList.add('d-none');
             if (submitBtn) submitBtn.disabled = true;
             return;
           }
-          paymentWrap?.classList.remove('hidden');
+          paymentWrap?.classList.remove('d-none');
           await setupStripe();
           if (submitBtn) submitBtn.disabled = !termsCheck?.checked;
         } else {
-          paymentWrap?.classList.add('hidden');
+          paymentWrap?.classList.add('d-none');
           clearUiError();
           if (submitBtn) submitBtn.disabled = true;
         }
@@ -459,10 +448,48 @@ function setEstimateInUI(amount, currency) {
 
     if (termsCheck && submitBtn) {
       termsCheck.addEventListener('change', () => {
-        if (!paymentWrap?.classList.contains('hidden')) {
+        if (!paymentWrap?.classList.contains('d-none')) {
           submitBtn.disabled = !termsCheck.checked;
         }
       });
+    }
+
+    async function handleNonCardBooking() {
+      const nextButton = document.querySelector('#wizard-nav-buttons [data-next]');
+      if (nextButton) nextButton.disabled = true;
+      clearUiError();
+
+      try {
+        // Asegura que la cotización esté actualizada antes de enviar
+        await fetchQuote();
+
+        const bookingPayload = getBookingPayload();
+        const res = await fetch('/api/bookings', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': csrfToken,
+          },
+          body: JSON.stringify({ ...bookingPayload, quoteId: currentQuote?.quoteId || null }),
+        });
+
+        if (!res.ok) {
+          const errorText = await res.text();
+          throw new Error(errorText || 'The reservation could not be created.');
+        }
+
+        alert("Reservation confirmed! We'll contact you to coordinate payment.");
+        
+        // Resetea el formulario y vuelve al inicio
+        bookingForm.reset();
+        showStep(1);
+        showView('home');
+
+      } catch (err) {
+        uiError(err.message || 'An error occurred while creating the reservation.');
+      } finally {
+        if (nextButton) nextButton.disabled = false;
+      }
     }
 
     if (submitBtn) {
@@ -479,7 +506,7 @@ function setEstimateInUI(amount, currency) {
         });
 
         if (error) {
-          uiError(error.message || 'Error en el pago');
+          uiError(error.message || 'Payment error');
           submitBtn.disabled = false;
         }
       });

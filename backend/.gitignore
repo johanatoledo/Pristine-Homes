@@ -1,9 +1,0 @@
-# Directorios de Node.js
-node_modules/
-
-# Archivos de entorno y claves privadas
-.env.development
-.env.production
-
-
-

@@ -1,0 +1,13 @@
+# Directorios de Node.js para ambas carpetas
+/backend/node_modules/
+/frontend/node_modules/
+
+# Archivos de entorno para ambas carpetas
+/backend/.env.development
+/backend/.env.production
+
+/frontend/.env.development
+/frontend/.env.production
+
+
+
