@@ -294,66 +294,70 @@ function setupPageLogic() {
     }
 
     let priceDebounce;
-    async function fetchQuote() {
+    function fetchQuote() {
       clearTimeout(priceDebounce);
-      priceDebounce = setTimeout(async () => {
-        const payload = getQuotePayload();
+      return new Promise((resolve, reject) => {
+        priceDebounce = setTimeout(async () => {
+          const payload = getQuotePayload();
 
-        if (!payload) {
-          console.log('Incomplete quote data, the API call will not be made.');
-          return;
-        }
+          if (!payload) {
+            console.log('Incomplete quote data, the API call will not be made.');
+            return resolve(null);
+          }
 
-        if (priceAbortCtrl) priceAbortCtrl.abort();
-        priceAbortCtrl = new AbortController();
+          if (priceAbortCtrl) priceAbortCtrl.abort();
+          priceAbortCtrl = new AbortController();
 
-        try {
-          clearUiError();
-          const res = await fetch('/api/pricing/quote', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-CSRF-Token': csrfToken,
-            },
-            body: JSON.stringify(payload),
-            signal: priceAbortCtrl.signal,
-          });
-          if (!res.ok) throw new Error(await res.text() || 'Pricing service not available.');
-          const data = await res.json();
-          currentQuote = data;
+          try {
+            clearUiError();
+            const res = await fetch('/api/pricing/quote', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken,
+              },
+              body: JSON.stringify(payload),
+              signal: priceAbortCtrl.signal,
+            });
+            if (!res.ok) throw new Error(await res.text() || 'Pricing service not available.');
+            const data = await res.json();
+            currentQuote = data;
 
-          setEstimateInUI(data.amount, data.currency);
+            setEstimateInUI(data.amount, data.currency);
 
-          const box = document.getElementById('quickQuoteResult');
-          if (box) {
-            box.classList.remove('d-none', 'alert');
-            box.classList.add('alert-info');
-             if(payload.serviceCode==='Regular'){
-              payload.serviceCode='House Cleaning';
-            }else{
-              payload.serviceCode=`${payload.serviceCode} Cleaning`;
+            const box = document.getElementById('quickQuoteResult');
+            if (box) {
+              box.classList.remove('d-none', 'alert');
+              box.classList.add('alert-info');
+               if(payload.serviceCode==='Regular'){
+                payload.serviceCode='House Cleaning';
+              }else{
+                payload.serviceCode=`${payload.serviceCode} Cleaning`;
+              }
+              box.innerHTML = `
+                <div><strong>Estimated price::</strong> ${formatCurrency(data.amount, data.currency)}</div>
+                <div class="small text-muted">
+                  Service: ${payload.serviceCode} · Rooms: ${payload.beds} · Bathrooms: ${payload.baths} · Frequency: ${payload.freq}
+                  ${payload.extras?.length ? ' · Extras: ' + payload.extras.join(', ') : ''}
+                  ${payload.zip ? ' · Zip code: ' + payload.zip : ''}
+                </div>
+              `;
             }
-            box.innerHTML = `
-              <div><strong>Estimated price::</strong> ${formatCurrency(data.amount, data.currency)}</div>
-              <div class="small text-muted">
-                Service: ${payload.serviceCode} · Rooms: ${payload.beds} · Bathrooms: ${payload.baths} · Frequency: ${payload.freq}
-                ${payload.extras?.length ? ' · Extras: ' + payload.extras.join(', ') : ''}
-                ${payload.zip ? ' · Zip code: ' + payload.zip : ''}
-              </div>
-            `;
+            resolve(data);
+          } catch (err) {
+            console.error(err);
+            currentQuote = null;
+            const box = document.getElementById('quickQuoteResult');
+            if (box) {
+              box.classList.remove('d-none', 'alert-info');
+              box.classList.add('alert');
+              box.textContent = 'The quote could not be calculated. Please check your input.';
+            }
+            uiError('The quote could not be refreshed. Please try again.');
+            reject(err);
           }
-        } catch (err) {
-          console.error(err);
-          currentQuote = null;
-          const box = document.getElementById('quickQuoteResult');
-          if (box) {
-            box.classList.remove('d-none', 'alert-info');
-            box.classList.add('alert');
-            box.textContent = 'The quote could not be calculated. Please check your input.';
-          }
-          uiError('The quote could not be refreshed. Please try again.');
-        }
-      }, 250);
+        }, 250);
+      });
     }
 
     const selectorsToWatch = [
@@ -399,7 +403,7 @@ function setupPageLogic() {
         bookingId = created?.id;
         if (!bookingId) throw new Error('Reservation ID is missing.');
 
-        const resPI = await fetch('/stripe/create-payment-intent', {
+        const resPI = await fetch('/api/payments/stripe/create-payment-intent', {
           method: 'POST',
           headers: {
             'Content-Type':'application/json',
