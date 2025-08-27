@@ -15,5 +15,6 @@
   },
   "author": "Johana Toledo",
   "license": "ISC",
-  "type": "module"
+  "type": "module",
+  "description": ""
 }

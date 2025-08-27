@@ -3,6 +3,7 @@ import { STRIPE_PK } from './config.js';
 
 let csrfToken = '';
 let currentStep = 1;
+ 
 
 /* Utilidad: ejecutar cuando el DOM está listo, sin perder el evento
    aunque lo llames después de que haya cargado. */
@@ -39,6 +40,7 @@ function setupPageLogic() {
     const bookingForm = document.getElementById('bookingForm');
     const bookingSteps = document.querySelectorAll('.booking-step');
     const progressSteps = document.querySelectorAll('[data-step]');
+    const nextButton = document.querySelector('#wizard-nav-buttons [data-next]');
     const wizardNav = document.getElementById('wizard-nav-buttons');
     const paySelect = document.querySelector('select[name="cPay"]');
     const paymentWrap = document.getElementById('stripe-payment-form');
@@ -113,7 +115,6 @@ function setupPageLogic() {
       updateProgress();
 
       // Cambia el texto del botón "Siguiente" en el último paso
-      const nextButton = document.querySelector('#wizard-nav-buttons [data-next]');
       if (nextButton) {
         if (step === bookingSteps.length) {
           nextButton.textContent = 'Confirm and Pay';
@@ -293,7 +294,7 @@ function setupPageLogic() {
       };
     }
 
-    let priceDebounce;
+    let priceDebounce = null;
     function fetchQuote() {
       clearTimeout(priceDebounce);
       return new Promise((resolve, reject) => {
